@@ -1,0 +1,45 @@
+lnd:
+  macaroonPath: /home/adrian/macaroons
+  scraping:
+    threads: 10
+  labels:
+  - lndversion
+  - exporterversion
+  nodes:
+    fhnw-01:
+      host: ip5.adrianpauli.ch
+      port: 10009
+      cert: |
+        -----BEGIN CERTIFICATE-----
+        MIIB/DCCAaKgAwIBAgIRAIKfQYkJJDIonUB+ROQU85wwCgYIKoZIzj0EAwIwODEf
+        MB0GA1UEChMWbG5kIGF1dG9nZW5lcmF0ZWQgY2VydDEVMBMGA1UEAxMMMTVmZTAx
+        ZmQ1MDk4MB4XDTE5MDYyNDA2NDI1NFoXDTIwMDgxODA2NDI1NFowODEfMB0GA1UE
+        ChMWbG5kIGF1dG9nZW5lcmF0ZWQgY2VydDEVMBMGA1UEAxMMMTVmZTAxZmQ1MDk4
+        MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE+BGIhxOPViNxUo/hqkBJRqOyLfkO
+        Uw6DCnaiKRfc6B/bUqr/Eq/Ai7reDHWi6j9Vylm8ic6SbVhE7QzsqWoeXKOBjDCB
+        iTAOBgNVHQ8BAf8EBAMCAqQwDwYDVR0TAQH/BAUwAwEB/zBmBgNVHREEXzBdggwx
+        NWZlMDFmZDUwOTiCCWxvY2FsaG9zdIISaXA1LmFkcmlhbnBhdWxpLmNoggR1bml4
+        ggp1bml4cGFja2V0hwR/AAABhxAAAAAAAAAAAAAAAAAAAAABhwSsFAACMAoGCCqG
+        SM49BAMCA0gAMEUCIDvXHJH8KRt7DcH5jve2XeH5MVUBSNJ9OP+qdchp7n1JAiEA
+        xAyssKuHn8Q8WNPLedzczBKXmXnI4iEyegZtn8Q+NJM=
+        -----END CERTIFICATE-----
+      exporters:
+        common:
+        - current_block_height
+        - current_block_height
+        - blockchain_synced
+        testpayments:
+        - metric3
+        - metric4
+    fhnw-02:
+      host: ip5.adrianpauli.ch
+      port: 20
+      cert:
+      exporters:
+        common:
+        - metric1
+        - metric2
+        - metric7
+        testpayments:
+        - metric3
+        - metric4
