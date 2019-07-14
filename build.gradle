@@ -1,5 +1,6 @@
 plugins {
 	id 'org.springframework.boot' version '2.1.5.RELEASE'
+	id "io.freefair.lombok" version "3.2.0"
 	id 'java'
 }
 
@@ -15,29 +16,13 @@ repositories {
 
 dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.8'
-	annotationProcessor 'org.projectlombok:lombok:1.18.8'
-
-	compile 'io.micrometer:micrometer-core:1.1.5'
-	compile 'io.micrometer:micrometer-registry-prometheus:1.1.5'
 
 	compile "org.lightningj:lightningj:0.6.1-Beta"
 	compile "io.netty:netty-tcnative-boringssl-static:2.0.25.Final"
 
-	compile "com.fasterxml.jackson.datatype:jackson-datatype-json-org"
-	compile "com.fasterxml.jackson.datatype:jackson-datatype-hppc"
-	compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
-	compile "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5"
-	compile "com.fasterxml.jackson.core:jackson-annotations"
-	compile "com.fasterxml.jackson.core:jackson-databind"
-	compile "com.fasterxml.jackson.module:jackson-module-afterburner"
-
-	implementation "javax.xml.bind:jaxb-api:2.2.11"
-	implementation "com.sun.xml.bind:jaxb-core:2.2.11"
-	implementation "com.sun.xml.bind:jaxb-impl:2.2.11"
-	implementation "javax.activation:activation:1.1.1"
-
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'io.prometheus:simpleclient:0.6.0'
 	implementation 'io.prometheus:simpleclient_common:0.6.0'
+	implementation "javax.xml.bind:jaxb-api:2.2.11" // Required by Prometheus Client Library
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
