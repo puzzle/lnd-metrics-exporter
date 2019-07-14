@@ -5,6 +5,7 @@ import ch.puzzle.lnd.metricsexporter.common.scrape.ScrapeFactory;
 import ch.puzzle.lnd.metricsexporter.common.scrape.config.ScrapeConfigRegistry;
 import ch.puzzle.lnd.metricsexporter.common.scrape.config.exception.ScrapeConfigLookupException;
 import io.prometheus.client.exporter.common.TextFormat;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,7 @@ public class LndMetricsController {
         this.lndConfig = lndConfig;
     }
 
-    @GetMapping
+    @GetMapping(produces = "text/plain; version=0.0.4; charset=utf-8")
     public String scrape(@PathVariable String node, @PathVariable String exporter) throws IOException, ScrapeConfigLookupException {
         var scrapeConfig = scrapeConfigRegistry.lookup(node, exporter);
         var scrape = scrapeFactory.create(scrapeConfig);
