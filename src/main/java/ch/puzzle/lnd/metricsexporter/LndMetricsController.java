@@ -1,5 +1,6 @@
 package ch.puzzle.lnd.metricsexporter;
 
+import ch.puzzle.lnd.metricsexporter.common.config.LndConfig;
 import ch.puzzle.lnd.metricsexporter.common.scrape.ScrapeFactory;
 import ch.puzzle.lnd.metricsexporter.common.scrape.config.ScrapeConfigRegistry;
 import ch.puzzle.lnd.metricsexporter.common.scrape.config.exception.ScrapeConfigLookupException;
@@ -22,17 +23,20 @@ public class LndMetricsController {
 
     private final ScrapeConfigRegistry scrapeConfigRegistry;
 
-    public LndMetricsController(ScrapeFactory scrapeFactory, ScrapeConfigRegistry scrapeConfigRegistry) {
+    private final LndConfig lndConfig;
+
+    public LndMetricsController(ScrapeFactory scrapeFactory, ScrapeConfigRegistry scrapeConfigRegistry, LndConfig lndConfig) {
         this.scrapeFactory = scrapeFactory;
         this.scrapeConfigRegistry = scrapeConfigRegistry;
+        this.lndConfig = lndConfig;
     }
 
     @GetMapping
     public String scrape(@PathVariable String node, @PathVariable String exporter) throws IOException, ScrapeConfigLookupException {
         var scrapeConfig = scrapeConfigRegistry.lookup(node, exporter);
         var scrape = scrapeFactory.create(scrapeConfig);
-        scrape.start(10); // FIXME: Use config
-        var registry = scrape.awaitTermination(100, TimeUnit.SECONDS);
+        scrape.start(lndConfig.getScraping().getThreads());
+        var registry = scrape.awaitTermination(lndConfig.getScraping().getTimeoutSec(), TimeUnit.SECONDS);
         Writer writer = new StringWriter();
         TextFormat.write004(writer, registry.metricFamilySamples());
         return writer.toString();

@@ -2,6 +2,7 @@ lnd:
   macaroonPath: /home/adrian/macaroons
   scraping:
     threads: 10
+    timeoutSec: 10
   labels:
   - lndversion
   - exporterversion
