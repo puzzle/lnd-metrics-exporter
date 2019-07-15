@@ -1,21 +1,31 @@
 plugins {
 	id 'org.springframework.boot' version '2.1.5.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id "io.freefair.lombok" version "3.2.0"
 	id 'java'
 }
-
-apply plugin: 'io.spring.dependency-management'
 
 group = 'ch.puzzle.lnd'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+
+bootJar {
+	archiveFileName = "${project.name}.jar" // Simplify Docker Build
+}
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
+	compileOnly 'org.projectlombok:lombok:1.18.8'
+
+	compile "org.lightningj:lightningj:0.6.1-Beta"
+	compile "io.netty:netty-tcnative-boringssl-static:2.0.25.Final"
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'io.prometheus:simpleclient:0.6.0'
 	implementation 'io.prometheus:simpleclient_common:0.6.0'
+	implementation "javax.xml.bind:jaxb-api:2.2.11" // Required by Prometheus Client Library
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
