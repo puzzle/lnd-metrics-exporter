@@ -27,6 +27,8 @@ public class LndConfig {
 
         private int threads;
 
+        private int timeoutSec;
+
     }
 
 }

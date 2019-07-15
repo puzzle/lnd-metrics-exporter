@@ -1,7 +1,8 @@
 lnd:
-  macaroonPath: /home/adrian/macaroons
+  macaroonPath: macaroons
   scraping:
     threads: 10
+    timeoutSec: 10
   scrapers:
     channel_route_test:
       channel01:
@@ -37,13 +38,22 @@ lnd:
         - channel_route_test.channel01
     fhnw-02:
       host: ip5.adrianpauli.ch
-      port: 20
-      cert:
+      port: 10010
+      cert: |
+        -----BEGIN CERTIFICATE-----
+        MIIB/DCCAaKgAwIBAgIRAKiL2D9yLpVIT/th9Uj7RuUwCgYIKoZIzj0EAwIwODEf
+        MB0GA1UEChMWbG5kIGF1dG9nZW5lcmF0ZWQgY2VydDEVMBMGA1UEAxMMZTVkN2Mx
+        NmUxZDJmMB4XDTE5MDcxNDExNDcyMFoXDTIwMDkwNzExNDcyMFowODEfMB0GA1UE
+        ChMWbG5kIGF1dG9nZW5lcmF0ZWQgY2VydDEVMBMGA1UEAxMMZTVkN2MxNmUxZDJm
+        MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE/yGQ7p8HhqfcidrXuAMy1Oln74pF
+        /jXY/QfFWqWPFNY9lPZIPKLB8UUVL/z+fz/F+vhlurbSBq5z5oYWn7LAfaOBjDCB
+        iTAOBgNVHQ8BAf8EBAMCAqQwDwYDVR0TAQH/BAUwAwEB/zBmBgNVHREEXzBdggxl
+        NWQ3YzE2ZTFkMmaCCWxvY2FsaG9zdIISaXA1LmFkcmlhbnBhdWxpLmNoggR1bml4
+        ggp1bml4cGFja2V0hwR/AAABhxAAAAAAAAAAAAAAAAAAAAABhwSsFwACMAoGCCqG
+        SM49BAMCA0gAMEUCIQCESI//k9SzIIOQtakkXmgNmsr6/1C5RrvK4D6ZGBeQ6gIg
+        a8jaJ+GFw3zDnvv11SFWQH4DZjgIfnZeUUYJHTcXCE4=
+        -----END CERTIFICATE-----
       exporters:
         common:
-        - metric1
-        - metric2
-        - metric7
-        testpayments:
-        - metric3
-        - metric4
+          - current_block_height
+          - blockchain_synced

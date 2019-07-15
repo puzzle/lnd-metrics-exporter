@@ -23,6 +23,6 @@ public class CurrentBlockHeightScraper implements MetricScraper {
     @Override
     public Measurement scrape(LndApi lndApi) throws Exception {
         var info = lndApi.synchronous().getInfo();
-        return Measurement.counter(info.getBlockHeight()).label("exporterversion", UUID.randomUUID().toString());
+        return Measurement.counter(info.getBlockHeight());
     }
 }
