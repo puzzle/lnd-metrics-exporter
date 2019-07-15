@@ -1,5 +1,5 @@
 lnd:
-  macaroonPath: /home/adrian/macaroons
+  macaroonPath: macaroons
   scraping:
     threads: 10
     timeoutSec: 10
