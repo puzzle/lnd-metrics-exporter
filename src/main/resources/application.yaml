@@ -2,6 +2,11 @@ lnd:
   macaroonPath: /home/adrian/macaroons
   scraping:
     threads: 10
+  scrapers:
+    channel_route_test:
+      channel01:
+        channelId: 1637407009740881920
+        amount: 1
   labels:
   - lndversion
   - exporterversion
@@ -29,8 +34,7 @@ lnd:
         - current_block_height
         - blockchain_synced
         testpayments:
-        - metric3
-        - metric4
+        - channel_route_test.channel01
     fhnw-02:
       host: ip5.adrianpauli.ch
       port: 20

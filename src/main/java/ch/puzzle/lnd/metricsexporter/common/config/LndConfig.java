@@ -17,6 +17,8 @@ public class LndConfig {
 
     private ScrapingConfig scraping;
 
+    private ScraperMetricConfig scrapers;
+
     private Map<String, NodeConfig> nodes;
 
     @Data
