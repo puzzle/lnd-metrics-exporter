@@ -32,7 +32,6 @@ lnd:
       exporters:
         common:
         - current_block_height
-        - current_block_height
         - blockchain_synced
         testpayments:
         - channel_route_test.channel01
