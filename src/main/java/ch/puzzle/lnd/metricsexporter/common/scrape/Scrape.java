@@ -4,6 +4,8 @@ import ch.puzzle.lnd.metricsexporter.common.api.LndApi;
 import ch.puzzle.lnd.metricsexporter.common.scrape.labels.LabelProvider;
 import ch.puzzle.lnd.metricsexporter.common.scrape.labels.Labels;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraper;
+import ch.puzzle.lnd.metricsexporter.common.scrape.newmetrics.Measurement;
+import ch.puzzle.lnd.metricsexporter.common.scrape.newmetrics.MeasurementsCollector;
 import io.prometheus.client.CollectorRegistry;
 
 import java.util.*;
@@ -22,7 +24,7 @@ public class Scrape {
 
     private Labels labels;
 
-    private Map<MetricScraper, Measurement> measurements;
+    private Map<String, Measurement<?, ?>> measurements;
 
     private AtomicInteger errorCount;
 
@@ -51,19 +53,23 @@ public class Scrape {
             e.printStackTrace(); // FIXME
         }
         var registry = new CollectorRegistry();
-        measurements.forEach((scraper, measurement) -> measurement.register(
-                scraper.name(),
-                scraper.description(),
-                labels,
-                registry
-        ));
+        measurements.forEach((name, measurement) -> MeasurementsCollector.using(measurement).collect(
+                name,
+                "", // FIXME
+                labels
+        ).register(registry));
         return registry;
     }
 
     private void scrape(MetricScraper scraper) {
         executorService.submit(() -> {
             try {
-                measurements.put(scraper, scraper.scrape(api));
+                var name = scraper.name();
+                if (measurements.containsKey(name)) {
+                    measurements.get(name).addAll(scraper.scrape(api));
+                } else {
+                    measurements.put(name, scraper.scrape(api));
+                }
             } catch (Exception e) {
                 errorCount.incrementAndGet();
             }

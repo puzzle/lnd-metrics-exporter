@@ -1,14 +1,12 @@
 package ch.puzzle.lnd.metricsexporter.scrapers;
 
 import ch.puzzle.lnd.metricsexporter.common.api.LndApi;
-import ch.puzzle.lnd.metricsexporter.common.scrape.Measurement;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraper;
+import ch.puzzle.lnd.metricsexporter.common.scrape.newmetrics.Gauge;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
-public class CurrentBlockHeightScraper implements MetricScraper {
+public class CurrentBlockHeightScraper implements MetricScraper<Gauge> {
 
     @Override
     public String name() {
@@ -21,8 +19,9 @@ public class CurrentBlockHeightScraper implements MetricScraper {
     }
 
     @Override
-    public Measurement scrape(LndApi lndApi) throws Exception {
+    public Gauge scrape(LndApi lndApi) throws Exception {
         var info = lndApi.synchronous().getInfo();
-        return Measurement.counter(info.getBlockHeight());
+        return Gauge.create()
+                .value((double) info.getBlockHeight());
     }
 }

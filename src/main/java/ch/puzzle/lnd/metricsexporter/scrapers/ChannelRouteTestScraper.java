@@ -2,8 +2,8 @@ package ch.puzzle.lnd.metricsexporter.scrapers;
 
 import ch.puzzle.lnd.metricsexporter.common.api.LndApi;
 import ch.puzzle.lnd.metricsexporter.common.config.ChannelRouteTestConfig;
-import ch.puzzle.lnd.metricsexporter.common.scrape.Measurement;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraper;
+import ch.puzzle.lnd.metricsexporter.common.scrape.newmetrics.Counter;
 import org.lightningj.lnd.proto.LightningApi;
 import org.lightningj.lnd.wrapper.ClientSideException;
 import org.lightningj.lnd.wrapper.message.ChannelEdge;
@@ -12,7 +12,7 @@ import org.lightningj.lnd.wrapper.message.Route;
 
 import java.util.Collections;
 
-public class ChannelRouteTestScraper implements MetricScraper {
+public class ChannelRouteTestScraper implements MetricScraper<Counter> {
 
     private ChannelRouteTestConfig metricConfig;
 
@@ -31,7 +31,7 @@ public class ChannelRouteTestScraper implements MetricScraper {
     }
 
     @Override
-    public Measurement scrape(LndApi lndApi) throws Exception {
+    public Counter scrape(LndApi lndApi) throws Exception {
         var invoice = LightningApi.Invoice.newBuilder().setValue(1).build();
         var invoiceMessage = new Invoice(invoice);
         var addInvoiceResponse = lndApi.synchronous().addInvoice(invoiceMessage);
@@ -49,8 +49,9 @@ public class ChannelRouteTestScraper implements MetricScraper {
                 routeMessages,
                 null);
 
-        return Measurement.counter(sendToRouteResponse.getPaymentError().equals("") ? 1 : 0)
-                .label("channelId", String.valueOf(metricConfig.getChannelId()));
+        return Counter.create()
+                .label("channelId", String.valueOf(metricConfig.getChannelId()))
+                .value("".equals(sendToRouteResponse.getPaymentError()) ? 1 : 0);
     }
 
     private Route constructRoute(int currentBlockHeight, int amount, ChannelEdge channelInfo) throws ClientSideException {

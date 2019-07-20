@@ -2,19 +2,21 @@ package ch.puzzle.lnd.metricsexporter.common.scrape.labels;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Labels {
 
-    private final Map<String, String> labels;
+    private final SortedMap<String, String> labels;
 
-    public Labels(Map<String, String> labels) {
+    public Labels(SortedMap<String, String> labels) {
         this.labels = labels;
     }
 
     public static Labels create() {
-        return new Labels(new HashMap<>());
+        return new Labels(new TreeMap<>());
     }
 
     public Labels with(String name, String value) {
@@ -42,7 +44,7 @@ public class Labels {
                         .filter(entry -> !labels.containsKey(entry.getKey()))
         )
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (first, second) -> second));
-        return new Labels(mergedLabels);
+        return new Labels(new TreeMap<>(mergedLabels));
     }
 
 }
