@@ -33,6 +33,8 @@ lnd:
         common:
         - current_block_height
         - blockchain_synced
+        - channel_open
+        - channel_closed
         testpayments:
         - channel_route_test.channel01
     fhnw-02:
