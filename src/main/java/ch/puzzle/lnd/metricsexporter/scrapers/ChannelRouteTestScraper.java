@@ -17,8 +17,6 @@ public class ChannelRouteTestScraper implements MetricScraper {
     private String metricConfigName;
     private ChannelMetricConfig metricConfig;
 
-    private static Measurement measurement = Measurement.counter(0);
-
     public ChannelRouteTestScraper(String metricConfigName, ChannelMetricConfig metricConfig) {
         this.metricConfigName = metricConfigName;
         this.metricConfig = metricConfig;

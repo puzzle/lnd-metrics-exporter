@@ -1,7 +1,9 @@
-package ch.puzzle.lnd.metricsexporter.common.scrape.metrics;
+package ch.puzzle.lnd.metricsexporter.registry;
 
 import ch.puzzle.lnd.metricsexporter.common.config.ChannelMetricConfig;
 import ch.puzzle.lnd.metricsexporter.common.config.LndConfig;
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraper;
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraperRegistry;
 import ch.puzzle.lnd.metricsexporter.scrapers.ChannelRouteTestScraper;
 import org.springframework.stereotype.Component;
 
