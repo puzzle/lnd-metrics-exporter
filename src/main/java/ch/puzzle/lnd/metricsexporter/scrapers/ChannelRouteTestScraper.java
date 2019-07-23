@@ -1,7 +1,7 @@
 package ch.puzzle.lnd.metricsexporter.scrapers;
 
 import ch.puzzle.lnd.metricsexporter.common.api.LndApi;
-import ch.puzzle.lnd.metricsexporter.common.config.ChannelMetricConfig;
+import ch.puzzle.lnd.metricsexporter.common.config.ChannelRouteTestConfig;
 import ch.puzzle.lnd.metricsexporter.common.scrape.Measurement;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraper;
 import org.lightningj.lnd.proto.LightningApi;
@@ -15,9 +15,9 @@ import java.util.Collections;
 public class ChannelRouteTestScraper implements MetricScraper {
 
     private String metricConfigName;
-    private ChannelMetricConfig metricConfig;
+    private ChannelRouteTestConfig metricConfig;
 
-    public ChannelRouteTestScraper(String metricConfigName, ChannelMetricConfig metricConfig) {
+    public ChannelRouteTestScraper(String metricConfigName, ChannelRouteTestConfig metricConfig) {
         this.metricConfigName = metricConfigName;
         this.metricConfig = metricConfig;
     }

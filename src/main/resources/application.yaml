@@ -8,6 +8,9 @@ lnd:
       channel01:
         channelId: 1637407009740881920
         amount: 1
+    channel_active:
+      channel01:
+        channelId: 1637407009740881920
   labels:
   - lndversion
   - exporterversion
@@ -33,6 +36,7 @@ lnd:
         common:
         - current_block_height
         - blockchain_synced
+        - channel_active.channel01
         testpayments:
         - channel_route_test.channel01
     fhnw-02:
