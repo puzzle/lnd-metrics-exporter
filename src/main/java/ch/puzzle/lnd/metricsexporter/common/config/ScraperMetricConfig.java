@@ -13,4 +13,8 @@ public class ScraperMetricConfig {
 
     private Map<String, ChannelIdentificationConfig> channel_active;
 
+    private Map<String, ChannelIdentificationConfig> channel_balance_local;
+
+    private Map<String, ChannelIdentificationConfig> channel_balance_remote;
+
 }
