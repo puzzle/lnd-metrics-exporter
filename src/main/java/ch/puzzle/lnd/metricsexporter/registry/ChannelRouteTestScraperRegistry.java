@@ -19,7 +19,7 @@ public class ChannelRouteTestScraperRegistry implements MetricScraperRegistry {
         Map<String, ChannelRouteTestConfig> channelMetricConfigs = lndConfig.getScrapers().getChannel_route_test();
         scrapers = new HashMap<>();
         channelMetricConfigs.forEach((metricConfigName, channelRouteTestConfig) -> {
-            var scraper = new ChannelRouteTestScraper(metricConfigName, channelRouteTestConfig);
+            var scraper = new ChannelRouteTestScraper(channelRouteTestConfig);
             scrapers.put(String.format("%s.%s", scraper.name(), metricConfigName), scraper);
         });
     }

@@ -14,11 +14,9 @@ import java.util.Collections;
 
 public class ChannelRouteTestScraper implements MetricScraper {
 
-    private String metricConfigName;
     private ChannelRouteTestConfig metricConfig;
 
-    public ChannelRouteTestScraper(String metricConfigName, ChannelRouteTestConfig metricConfig) {
-        this.metricConfigName = metricConfigName;
+    public ChannelRouteTestScraper(ChannelRouteTestConfig metricConfig) {
         this.metricConfig = metricConfig;
     }
 
@@ -52,7 +50,7 @@ public class ChannelRouteTestScraper implements MetricScraper {
                 null);
 
         return Measurement.counter(sendToRouteResponse.getPaymentError().equals("") ? 1 : 0)
-                .label("config", metricConfigName);
+                .label("channelId", String.valueOf(metricConfig.getChannelId()));
     }
 
     private Route constructRoute(int currentBlockHeight, int amount, ChannelEdge channelInfo) throws ClientSideException {

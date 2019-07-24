@@ -19,7 +19,7 @@ public class ChannelActiveScraperRegistry implements MetricScraperRegistry {
         Map<String, ChannelIdentificationConfig> metricConfigs = lndConfig.getScrapers().getChannel_active();
         scrapers = new HashMap<>();
         metricConfigs.forEach((metricConfigName, metricConfig) -> {
-            var scraper = new ChannelActiveScraper(metricConfigName, metricConfig);
+            var scraper = new ChannelActiveScraper(metricConfig);
             scrapers.put(String.format("%s.%s", scraper.name(), metricConfigName), scraper);
         });
     }

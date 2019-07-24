@@ -9,11 +9,9 @@ import org.lightningj.lnd.wrapper.message.ListChannelsRequest;
 
 public class ChannelActiveScraper implements MetricScraper {
 
-    private String metricConfigName;
     private ChannelIdentificationConfig metricConfig;
 
-    public ChannelActiveScraper(String metricConfigName, ChannelIdentificationConfig metricConfig) {
-        this.metricConfigName = metricConfigName;
+    public ChannelActiveScraper(ChannelIdentificationConfig metricConfig) {
         this.metricConfig = metricConfig;
     }
 
@@ -34,13 +32,13 @@ public class ChannelActiveScraper implements MetricScraper {
         for (Channel channel : listChannelsResponse.getChannels()) {
             if(channel.getChanId() == metricConfig.getChannelId()) {
                 return Measurement.counter(channel.getActive() ? 1 : 0)
-                        .label("config", metricConfigName);
+                        .label("channelId", String.valueOf(metricConfig.getChannelId()));
             }
         }
 
         // TODO: Throw error and don't return measurement? Or is channel considered inactive if not found?
 
         return Measurement.counter(0)
-                .label("config", metricConfigName);
+                .label("channelId", String.valueOf(metricConfig.getChannelId()));
     }
 }

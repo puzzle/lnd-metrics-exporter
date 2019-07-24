@@ -19,7 +19,7 @@ public class ChannelBalanceLocalScraperRegistry implements MetricScraperRegistry
         Map<String, ChannelIdentificationConfig> metricConfigs = lndConfig.getScrapers().getChannel_balance_local();
         scrapers = new HashMap<>();
         metricConfigs.forEach((metricConfigName, metricConfig) -> {
-            var scraper = new ChannelBalanceLocalScraper(metricConfigName, metricConfig);
+            var scraper = new ChannelBalanceLocalScraper(metricConfig);
             scrapers.put(String.format("%s.%s", scraper.name(), metricConfigName), scraper);
         });
     }

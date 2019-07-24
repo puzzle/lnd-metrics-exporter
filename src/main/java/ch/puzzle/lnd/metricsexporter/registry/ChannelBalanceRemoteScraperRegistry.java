@@ -19,7 +19,7 @@ public class ChannelBalanceRemoteScraperRegistry implements MetricScraperRegistr
         Map<String, ChannelIdentificationConfig> metricConfigs = lndConfig.getScrapers().getChannel_balance_remote();
         scrapers = new HashMap<>();
         metricConfigs.forEach((metricConfigName, metricConfig) -> {
-            var scraper = new ChannelBalanceRemoteScraper(metricConfigName, metricConfig);
+            var scraper = new ChannelBalanceRemoteScraper(metricConfig);
             scrapers.put(String.format("%s.%s", scraper.name(), metricConfigName), scraper);
         });
     }
