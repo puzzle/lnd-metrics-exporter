@@ -27,7 +27,9 @@ public class Counter extends Measurement<Integer, Counter> {
                 .help(help)
                 .labelNames(labelNames(globalLabels))
                 .create();
-        collect(value -> counter.labels(labelNames(globalLabels)).inc(value.value()));
+        collect(measurementValue -> counter.labels(measurementValue.labels(globalLabels).getValues())
+                .inc(measurementValue.value())
+        );
         return counter;
     }
 }

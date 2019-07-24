@@ -1,5 +1,7 @@
 package ch.puzzle.lnd.metricsexporter.common.scrape.labels;
 
+import lombok.NonNull;
+
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -15,7 +17,7 @@ public final class Labels {
         return new Labels(new TreeMap<>());
     }
 
-    public Labels with(String name, String value) {
+    public Labels with(@NonNull String name, @NonNull String value) {
         labels.put(name, value);
         return this;
     }

@@ -24,7 +24,7 @@ public class MeasurementValue<TValue, TMeasurement extends Measurement<TValue, T
     }
 
     public MeasurementValue<TValue, TMeasurement> label(String name, String value) {
-        measurement.allLabels.with(name, null);
+        measurement.defaultLabels.with(name, "");
         labels.with(name, value);
         return this;
     }
@@ -39,6 +39,6 @@ public class MeasurementValue<TValue, TMeasurement extends Measurement<TValue, T
     }
 
     Labels labels(Labels defaultLabels) {
-        return labels.merge(defaultLabels.merge(measurement.allLabels));
+        return labels.merge(defaultLabels.merge(measurement.defaultLabels));
     }
 }

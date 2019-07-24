@@ -27,7 +27,9 @@ public class Gauge extends Measurement<Double, Gauge> {
                 .help(help)
                 .labelNames(labelNames(globalLabels))
                 .create();
-        collect(value -> gauge.labels(value.labels(globalLabels).getValues()).set(value.value()));
+        collect(measurementValue -> gauge.labels(measurementValue.labels(globalLabels).getValues())
+                .set(measurementValue.value())
+        );
         return gauge;
     }
 }
