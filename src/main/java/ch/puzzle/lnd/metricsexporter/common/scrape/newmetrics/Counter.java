@@ -10,7 +10,7 @@ public class Counter extends Measurement<Integer, Counter> {
     }
 
     @Override
-    public void addAll(Measurement<?, ?> measurement) {
+    public void addAll(Measurement<?, ?> measurement) throws IncompatibleMeasurementsDetected {
         measurement.addTo(this);
     }
 
@@ -20,7 +20,7 @@ public class Counter extends Measurement<Integer, Counter> {
     }
 
     @Override
-    Collector collect(String name, String help, Labels globalLabels) {
+    public Collector collect(String name, String help, Labels globalLabels) {
         var counter = io.prometheus.client.Counter.build()
                 .name(name)
                 .help(help)

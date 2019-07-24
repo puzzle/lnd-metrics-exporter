@@ -11,7 +11,7 @@ public class Gauge extends Measurement<Double, Gauge> {
     }
 
     @Override
-    public void addAll(Measurement<?, ?> measurement) {
+    public void addAll(Measurement<?, ?> measurement) throws IncompatibleMeasurementsDetected {
         measurement.addTo(this);
     }
 

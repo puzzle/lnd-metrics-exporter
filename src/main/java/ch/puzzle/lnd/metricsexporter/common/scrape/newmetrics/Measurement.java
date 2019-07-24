@@ -17,18 +17,18 @@ public abstract class Measurement<TValue, TMeasurement extends Measurement<TValu
         allLabels = Labels.create();
     }
 
-    public abstract void addAll(Measurement<?, ?> measurement);
+    public abstract void addAll(Measurement<?, ?> measurement) throws IncompatibleMeasurementsDetected;
 
-    void addTo(Gauge gauge) {
-        throw new IllegalStateException("Incompatible measurement / multiple measurement types per name detected.");
+    void addTo(Gauge gauge) throws IncompatibleMeasurementsDetected {
+        throw new IncompatibleMeasurementsDetected(getClass(), gauge.getClass());
     }
 
-    void addTo(Counter counter) {
-        throw new IllegalStateException("Incompatible measurement / multiple measurement types per name detected.");
+    void addTo(Counter counter) throws IncompatibleMeasurementsDetected {
+        throw new IncompatibleMeasurementsDetected(getClass(), counter.getClass());
     }
 
 
-    abstract Collector collect(String name, String help, Labels globalLabels);
+    public abstract Collector collect(String name, String help, Labels globalLabels);
 
 
     public MeasurementValue<TValue, TMeasurement> and() {

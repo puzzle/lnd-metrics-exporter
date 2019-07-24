@@ -5,7 +5,6 @@ import ch.puzzle.lnd.metricsexporter.common.scrape.ScrapeFactory;
 import ch.puzzle.lnd.metricsexporter.common.scrape.config.ScrapeConfigRegistry;
 import ch.puzzle.lnd.metricsexporter.common.scrape.config.exception.ScrapeConfigLookupException;
 import io.prometheus.client.exporter.common.TextFormat;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +36,7 @@ public class LndMetricsController {
         var scrapeConfig = scrapeConfigRegistry.lookup(node, exporter);
         var scrape = scrapeFactory.create(scrapeConfig);
         scrape.start(lndConfig.getScraping().getThreads());
-        var registry = scrape.awaitTermination(lndConfig.getScraping().getTimeoutSec(), TimeUnit.SECONDS);
+        var registry = scrape.collect(lndConfig.getScraping().getTimeoutSec(), TimeUnit.SECONDS);
         Writer writer = new StringWriter();
         TextFormat.write004(writer, registry.metricFamilySamples());
         return writer.toString();
