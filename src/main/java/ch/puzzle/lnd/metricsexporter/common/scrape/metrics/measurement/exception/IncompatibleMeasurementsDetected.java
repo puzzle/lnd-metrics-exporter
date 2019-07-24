@@ -1,4 +1,4 @@
-package ch.puzzle.lnd.metricsexporter.common.scrape.newmetrics;
+package ch.puzzle.lnd.metricsexporter.common.scrape.metrics.measurement.exception;
 
 public class IncompatibleMeasurementsDetected extends Exception {
 

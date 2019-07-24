@@ -43,8 +43,17 @@ public class Labels {
                 otherLabels.labels.entrySet().stream()
                         .filter(entry -> !labels.containsKey(entry.getKey()))
         )
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (first, second) -> second));
-        return new Labels(new TreeMap<>(mergedLabels));
+                .collect(TreeMap<String, String>::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), TreeMap::putAll);
+//        Collectors.toMap(this::extractKey, this::extractValue, (first, second) -> second));
+        return new Labels((mergedLabels));
     }
 
+    private String extractKey(Map.Entry<String, String> entry) {
+        return entry.getKey();
+    }
+
+
+    private String extractValue(Map.Entry<String, String> entry) {
+        return entry.getValue();
+    }
 }

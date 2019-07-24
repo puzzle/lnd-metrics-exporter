@@ -1,6 +1,7 @@
-package ch.puzzle.lnd.metricsexporter.common.scrape.newmetrics;
+package ch.puzzle.lnd.metricsexporter.common.scrape.metrics.measurement;
 
 import ch.puzzle.lnd.metricsexporter.common.scrape.labels.Labels;
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.measurement.exception.IncompatibleMeasurementsDetected;
 import io.prometheus.client.Collector;
 
 public class Counter extends Measurement<Integer, Counter> {
@@ -10,7 +11,7 @@ public class Counter extends Measurement<Integer, Counter> {
     }
 
     @Override
-    public void addAll(Measurement<?, ?> measurement) throws IncompatibleMeasurementsDetected {
+    void addAll(Measurement<?, ?> measurement) throws IncompatibleMeasurementsDetected {
         measurement.addTo(this);
     }
 
@@ -20,7 +21,7 @@ public class Counter extends Measurement<Integer, Counter> {
     }
 
     @Override
-    public Collector collect(String name, String help, Labels globalLabels) {
+    Collector collect(String name, String help, Labels globalLabels) {
         var counter = io.prometheus.client.Counter.build()
                 .name(name)
                 .help(help)

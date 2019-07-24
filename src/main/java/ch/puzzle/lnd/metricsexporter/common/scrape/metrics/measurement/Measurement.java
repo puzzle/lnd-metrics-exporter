@@ -1,6 +1,7 @@
-package ch.puzzle.lnd.metricsexporter.common.scrape.newmetrics;
+package ch.puzzle.lnd.metricsexporter.common.scrape.metrics.measurement;
 
 import ch.puzzle.lnd.metricsexporter.common.scrape.labels.Labels;
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.measurement.exception.IncompatibleMeasurementsDetected;
 import io.prometheus.client.Collector;
 
 import java.util.*;
@@ -17,7 +18,7 @@ public abstract class Measurement<TValue, TMeasurement extends Measurement<TValu
         allLabels = Labels.create();
     }
 
-    public abstract void addAll(Measurement<?, ?> measurement) throws IncompatibleMeasurementsDetected;
+    abstract void addAll(Measurement<?, ?> measurement) throws IncompatibleMeasurementsDetected;
 
     void addTo(Gauge gauge) throws IncompatibleMeasurementsDetected {
         throw new IncompatibleMeasurementsDetected(getClass(), gauge.getClass());
@@ -26,10 +27,6 @@ public abstract class Measurement<TValue, TMeasurement extends Measurement<TValu
     void addTo(Counter counter) throws IncompatibleMeasurementsDetected {
         throw new IncompatibleMeasurementsDetected(getClass(), counter.getClass());
     }
-
-
-    public abstract Collector collect(String name, String help, Labels globalLabels);
-
 
     public MeasurementValue<TValue, TMeasurement> and() {
         return MeasurementValue.create((TMeasurement) this);
@@ -47,5 +44,7 @@ public abstract class Measurement<TValue, TMeasurement extends Measurement<TValu
     void collect(Consumer<MeasurementValue<TValue, TMeasurement>> consumer) {
         values.forEach(consumer);
     }
+
+    abstract Collector collect(String name, String help, Labels globalLabels);
 
 }

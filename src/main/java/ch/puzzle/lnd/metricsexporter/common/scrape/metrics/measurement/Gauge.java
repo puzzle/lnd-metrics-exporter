@@ -1,9 +1,14 @@
-package ch.puzzle.lnd.metricsexporter.common.scrape.newmetrics;
+package ch.puzzle.lnd.metricsexporter.common.scrape.metrics.measurement;
 
 import ch.puzzle.lnd.metricsexporter.common.scrape.labels.Labels;
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.measurement.exception.IncompatibleMeasurementsDetected;
 import io.prometheus.client.Collector;
 
 public class Gauge extends Measurement<Double, Gauge> {
+
+    public static MeasurementValue<Double, Gauge> create() {
+        return MeasurementValue.create(new Gauge());
+    }
 
     @Override
     void addTo(Gauge metric) {
@@ -11,16 +16,12 @@ public class Gauge extends Measurement<Double, Gauge> {
     }
 
     @Override
-    public void addAll(Measurement<?, ?> measurement) throws IncompatibleMeasurementsDetected {
+    void addAll(Measurement<?, ?> measurement) throws IncompatibleMeasurementsDetected {
         measurement.addTo(this);
     }
 
-    public static MeasurementValue<Double, Gauge> create() {
-        return MeasurementValue.create(new Gauge());
-    }
-
     @Override
-    public Collector collect(String name, String help, Labels globalLabels) {
+    Collector collect(String name, String help, Labels globalLabels) {
         var gauge = io.prometheus.client.Gauge.build()
                 .name(name)
                 .help(help)

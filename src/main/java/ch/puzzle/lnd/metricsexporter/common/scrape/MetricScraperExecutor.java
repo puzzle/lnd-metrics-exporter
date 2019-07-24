@@ -3,13 +3,13 @@ package ch.puzzle.lnd.metricsexporter.common.scrape;
 import ch.puzzle.lnd.metricsexporter.common.api.LndApi;
 import ch.puzzle.lnd.metricsexporter.common.scrape.labels.Labels;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraper;
-import ch.puzzle.lnd.metricsexporter.common.scrape.newmetrics.IncompatibleMeasurementsDetected;
-import ch.puzzle.lnd.metricsexporter.common.scrape.newmetrics.Measurement;
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.measurement.Measurement;
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.measurement.MeasurementCollector;
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.measurement.exception.IncompatibleMeasurementsDetected;
 import io.prometheus.client.CollectorRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
@@ -18,7 +18,7 @@ class MetricScraperExecutor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MetricScraperExecutor.class);
 
-    private final Map<String, Result> measurements;
+    private final Map<String, MeasurementCollector> measurements;
 
     private final LndApi api;
 
@@ -29,7 +29,7 @@ class MetricScraperExecutor {
     MetricScraperExecutor(Iterable<MetricScraper<?>> scrapers, LndApi api) {
         this.api = api;
         this.scrapers = scrapers;
-        measurements = Collections.synchronizedMap(new TreeMap<>());
+        measurements = new TreeMap<>();
         hasErrors = false;
     }
 
@@ -40,7 +40,6 @@ class MetricScraperExecutor {
     }
 
     private void scrape(MetricScraper<?> scraper) {
-        var name = scraper.name();
         Measurement<?, ?> measurement;
         try {
             measurement = scraper.scrape(api);
@@ -48,12 +47,16 @@ class MetricScraperExecutor {
             reportError(e);
             return;
         }
+        addMeasurement(scraper.name(), scraper.description(), measurement);
+    }
+
+    private synchronized void addMeasurement(String name, String description, Measurement<?, ?> measurement) {
         if (!measurements.containsKey(name)) {
-            measurements.put(name, new Result(scraper.description(), measurement));
+            measurements.put(name, MeasurementCollector.create(measurement, description));
             return;
         }
         try {
-            measurements.get(name).measurement.addAll(measurement);
+            measurements.get(name).add(measurement);
         } catch (IncompatibleMeasurementsDetected incompatibleMeasurementsDetected) {
             reportError(incompatibleMeasurementsDetected);
         }
@@ -65,8 +68,7 @@ class MetricScraperExecutor {
         for (final var resultEntry : measurements.entrySet()) {
             final var name = resultEntry.getKey();
             final var result = resultEntry.getValue();
-            result.measurement.collect(name, result.description, globalLabels)
-                    .register(registry);
+            result.collect(name, globalLabels).register(registry);
         }
         return registry;
     }
@@ -79,17 +81,4 @@ class MetricScraperExecutor {
         LOGGER.error("Error detected during metric scrape: {}", cause.getMessage());
         hasErrors = true;
     }
-
-    private static class Result {
-
-        private final String description;
-
-        private final Measurement<?, ?> measurement;
-
-        private Result(String description, Measurement measurement) {
-            this.description = description;
-            this.measurement = measurement;
-        }
-    }
-
 }
