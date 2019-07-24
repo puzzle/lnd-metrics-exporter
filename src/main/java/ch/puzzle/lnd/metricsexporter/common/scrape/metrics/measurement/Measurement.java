@@ -32,6 +32,10 @@ public abstract class Measurement<TValue, TMeasurement extends Measurement<TValu
         throw new IncompatibleMeasurementsDetected(getClass(), gauge.getClass());
     }
 
+    void addTo(Summary summary) throws IncompatibleMeasurementsDetected {
+        throw new IncompatibleMeasurementsDetected(getClass(), summary.getClass());
+    }
+
     void addTo(Counter counter) throws IncompatibleMeasurementsDetected {
         throw new IncompatibleMeasurementsDetected(getClass(), counter.getClass());
     }
