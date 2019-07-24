@@ -42,6 +42,8 @@ lnd:
         common:
         - current_block_height
         - blockchain_synced
+        - channel_open
+        - channel_closed
         - channel_active.channel01
         - channel_balance_local.channel01
         - channel_balance_remote.channel01
