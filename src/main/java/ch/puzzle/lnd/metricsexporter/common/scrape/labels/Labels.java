@@ -1,28 +1,23 @@
 package ch.puzzle.lnd.metricsexporter.common.scrape.labels;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import lombok.NonNull;
 
-public class Labels {
+import java.util.SortedMap;
+import java.util.TreeMap;
 
-    private final Map<String, String> labels;
+public final class Labels {
 
-    public Labels(Map<String, String> labels) {
+    private final SortedMap<String, String> labels;
+
+    private Labels(SortedMap<String, String> labels) {
         this.labels = labels;
     }
 
     public static Labels create() {
-        return new Labels(new HashMap<>());
+        return new Labels(new TreeMap<>());
     }
 
-    public Labels with(String name, String value) {
-        labels.put(name, value);
-        return this;
-    }
-
-    public Labels set(String name, String value) {
+    public Labels with(@NonNull String name, @NonNull String value) {
         labels.put(name, value);
         return this;
     }
@@ -36,13 +31,13 @@ public class Labels {
     }
 
     public Labels merge(Labels otherLabels) {
-        var mergedLabels = Stream.concat(
-                labels.entrySet().stream(),
-                otherLabels.labels.entrySet().stream()
-                        .filter(entry -> !labels.containsKey(entry.getKey()))
-        )
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (first, second) -> second));
+        var mergedLabels = new TreeMap<>(labels);
+        for (var labelEntry : otherLabels.labels.entrySet()) {
+            if (mergedLabels.containsKey(labelEntry.getKey())) {
+                continue;
+            }
+            mergedLabels.put(labelEntry.getKey(), labelEntry.getValue());
+        }
         return new Labels(mergedLabels);
     }
-
 }

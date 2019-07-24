@@ -3,6 +3,7 @@ lnd:
   scraping:
     threads: 10
     timeoutSec: 10
+    successMetricName: scrape_successful
   scrapers:
     channel_route_test:
       channel01:
