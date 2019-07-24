@@ -18,6 +18,9 @@ lnd:
     channel_balance_remote:
       channel01:
         channelId: 1637407009740881920
+    channel_routing_activity:
+      channel01:
+        historyRangeSec: 10368000
   labels:
   - lndversion
   - exporterversion
@@ -51,7 +54,7 @@ lnd:
         - connected_peers
         - balance_onchain
         - balance_offchain
-        - channel_routing_activity
+        - channel_routing_activity.channel01
         testpayments:
         - channel_route_test.channel01
     fhnw-02:

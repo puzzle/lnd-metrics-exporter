@@ -17,4 +17,6 @@ public class ScraperMetricConfig {
 
     private Map<String, ChannelIdentificationConfig> channel_balance_remote;
 
+    private Map<String, ChannelRoutingActivityConfig> channel_routing_activity;
+
 }

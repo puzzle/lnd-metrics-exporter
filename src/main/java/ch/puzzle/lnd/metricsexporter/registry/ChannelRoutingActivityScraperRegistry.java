@@ -1,25 +1,25 @@
 package ch.puzzle.lnd.metricsexporter.registry;
 
-import ch.puzzle.lnd.metricsexporter.common.config.ChannelRouteTestConfig;
+import ch.puzzle.lnd.metricsexporter.common.config.ChannelRoutingActivityConfig;
 import ch.puzzle.lnd.metricsexporter.common.config.LndConfig;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraper;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraperRegistry;
-import ch.puzzle.lnd.metricsexporter.scrapers.ChannelRouteTestScraper;
+import ch.puzzle.lnd.metricsexporter.scrapers.ChannelRoutingActivityScraper;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class ChannelRouteTestScraperRegistry implements MetricScraperRegistry {
+public class ChannelRoutingActivityScraperRegistry implements MetricScraperRegistry {
 
     private volatile Map<String, MetricScraper> scrapers;
 
-    public ChannelRouteTestScraperRegistry(LndConfig lndConfig) {
-        Map<String, ChannelRouteTestConfig> channelMetricConfigs = lndConfig.getScrapers().getChannel_route_test();
+    public ChannelRoutingActivityScraperRegistry(LndConfig lndConfig) {
+        Map<String, ChannelRoutingActivityConfig> channelMetricConfigs = lndConfig.getScrapers().getChannel_routing_activity();
         scrapers = new HashMap<>();
         channelMetricConfigs.forEach((metricConfigName, metricConfig) -> {
-            var scraper = new ChannelRouteTestScraper(metricConfig);
+            var scraper = new ChannelRoutingActivityScraper(metricConfig);
             scrapers.put(String.format("%s.%s", scraper.name(), metricConfigName), scraper);
         });
     }
