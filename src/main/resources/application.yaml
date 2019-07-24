@@ -47,6 +47,7 @@ lnd:
         - channel_active.channel01
         - channel_balance_local.channel01
         - channel_balance_remote.channel01
+        - channel_routing_activity
         testpayments:
         - channel_route_test.channel01
     fhnw-02:
