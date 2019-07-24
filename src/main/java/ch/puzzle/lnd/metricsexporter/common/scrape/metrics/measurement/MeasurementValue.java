@@ -24,8 +24,8 @@ public class MeasurementValue<TValue, TMeasurement extends Measurement<TValue, T
     }
 
     public MeasurementValue<TValue, TMeasurement> label(String name, String value) {
-        measurement.allLabels.set(name, null);
-        labels.set(name, value);
+        measurement.allLabels.with(name, null);
+        labels.with(name, value);
         return this;
     }
 
