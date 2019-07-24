@@ -3,7 +3,7 @@ package ch.puzzle.lnd.metricsexporter.scrapers;
 import ch.puzzle.lnd.metricsexporter.common.api.LndApi;
 import ch.puzzle.lnd.metricsexporter.common.config.ChannelRouteTestConfig;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraper;
-import ch.puzzle.lnd.metricsexporter.common.scrape.newmetrics.Counter;
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.measurement.Counter;
 import org.lightningj.lnd.proto.LightningApi;
 import org.lightningj.lnd.wrapper.ClientSideException;
 import org.lightningj.lnd.wrapper.message.ChannelEdge;

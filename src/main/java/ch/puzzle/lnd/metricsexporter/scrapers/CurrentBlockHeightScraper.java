@@ -2,7 +2,7 @@ package ch.puzzle.lnd.metricsexporter.scrapers;
 
 import ch.puzzle.lnd.metricsexporter.common.api.LndApi;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraper;
-import ch.puzzle.lnd.metricsexporter.common.scrape.newmetrics.Gauge;
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.measurement.Gauge;
 import org.springframework.stereotype.Component;
 
 @Component
