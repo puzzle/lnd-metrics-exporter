@@ -9,6 +9,12 @@ import java.util.Map;
 @NoArgsConstructor
 public class ScraperMetricConfig {
 
-    private Map<String, ChannelMetricConfig> channel_route_test;
+    private Map<String, ChannelRouteTestConfig> channel_route_test;
+
+    private Map<String, ChannelIdentificationConfig> channel_active;
+
+    private Map<String, ChannelIdentificationConfig> channel_balance_local;
+
+    private Map<String, ChannelIdentificationConfig> channel_balance_remote;
 
 }

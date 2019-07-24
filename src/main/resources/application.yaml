@@ -8,6 +8,15 @@ lnd:
       channel01:
         channelId: 1637407009740881920
         amount: 1
+    channel_active:
+      channel01:
+        channelId: 1637407009740881920
+    channel_balance_local:
+      channel01:
+        channelId: 1637407009740881920
+    channel_balance_remote:
+      channel01:
+        channelId: 1637407009740881920
   labels:
   - lndversion
   - exporterversion
@@ -35,6 +44,9 @@ lnd:
         - blockchain_synced
         - channel_open
         - channel_closed
+        - channel_active.channel01
+        - channel_balance_local.channel01
+        - channel_balance_remote.channel01
         testpayments:
         - channel_route_test.channel01
     fhnw-02:

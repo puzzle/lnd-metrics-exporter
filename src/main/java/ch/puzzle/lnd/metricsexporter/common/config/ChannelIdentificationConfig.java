@@ -6,11 +6,9 @@ import lombok.ToString;
 
 @Data
 @NoArgsConstructor
-@ToString(of = {"channelId", "amount"})
-public class ChannelMetricConfig {
+@ToString(of = {"channelId"})
+public class ChannelIdentificationConfig {
 
     private long channelId;
-
-    private int amount;
 
 }
