@@ -47,6 +47,9 @@ lnd:
         - channel_active.channel01
         - channel_balance_local.channel01
         - channel_balance_remote.channel01
+        - connected_peers
+        - balance_onchain
+        - balance_offchain
         - channel_routing_activity
         testpayments:
         - channel_route_test.channel01
