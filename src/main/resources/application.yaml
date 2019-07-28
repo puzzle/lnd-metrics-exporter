@@ -24,6 +24,7 @@ lnd:
   labels:
   - lndversion
   - exporterversion
+  - pubkey
   nodes:
     fhnw-01:
       host: ip5.adrianpauli.ch
