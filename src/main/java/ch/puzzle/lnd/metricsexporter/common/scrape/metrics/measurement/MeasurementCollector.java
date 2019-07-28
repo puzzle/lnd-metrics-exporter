@@ -24,7 +24,7 @@ public class MeasurementCollector {
     }
 
     public void add(Measurement<?, ?> measurement) throws IncompatibleMeasurementsDetected {
-        measurement.addAll(measurement);
+        this.measurement.addAll(measurement);
     }
 
     public Collector collect(String name, Labels globalLabels) {
