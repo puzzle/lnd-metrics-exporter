@@ -100,16 +100,16 @@ lnd:
         -----END CERTIFICATE-----
       exporters:
         common:
-          - current_block_height
-          - blockchain_synced
-          - channel_open
-          - channel_closed
-          - channel_active.fhnw02ToFhnw01
-          - channel_balance_local.fhnw02ToFhnw01
-          - channel_balance_remote.fhnw02ToFhnw01
-          - connected_peers
-          - balance_onchain
-          - balance_offchain
-          - channel_routing_activity.fhnw02
+        - current_block_height
+        - blockchain_synced
+        - channel_open
+        - channel_closed
+        - channel_active.fhnw02ToFhnw01
+        - channel_balance_local.fhnw02ToFhnw01
+        - channel_balance_remote.fhnw02ToFhnw01
+        - connected_peers
+        - balance_onchain
+        - balance_offchain
+        - channel_routing_activity.fhnw02
         testpayments:
-          - channel_route_test.fhnw02ToFhnw01
+        - channel_route_test.fhnw02ToFhnw01

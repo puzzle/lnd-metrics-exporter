@@ -44,7 +44,7 @@ class LabelProviderExecutor {
     }
 
     boolean hasErrors() {
-        return !hasErrors;
+        return hasErrors;
     }
 
     public Labels collect() {
