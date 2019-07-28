@@ -6,24 +6,43 @@ lnd:
     successMetricName: scrape_successful
   scrapers:
     channel_route_test:
-      channel01:
+      fhnw01ToAranguren:
         channelId: 1637407009740881920
         amount: 1
+      fhnw01ToPuzzleITC:
+        channelId: 1633773123809378304
+        amount: 1
+      fhnw02ToFhnw01:
+        channelId: 1727692307544145920
+        amount: 1
     channel_active:
-      channel01:
+      fhnw01ToAranguren:
         channelId: 1637407009740881920
+      fhnw01ToPuzzleITC:
+        channelId: 1633773123809378304
+      fhnw02ToFhnw01:
+        channelId: 1727692307544145920
     channel_balance_local:
-      channel01:
+      fhnw01ToAranguren:
         channelId: 1637407009740881920
+      fhnw01ToPuzzleITC:
+        channelId: 1633773123809378304
+      fhnw02ToFhnw01:
+        channelId: 1727692307544145920
     channel_balance_remote:
-      channel01:
+      fhnw01ToAranguren:
         channelId: 1637407009740881920
+      fhnw01ToPuzzleITC:
+        channelId: 1633773123809378304
+      fhnw02ToFhnw01:
+        channelId: 1727692307544145920
     channel_routing_activity:
-      channel01:
+      fhnw01:
         historyRangeSec: 10368000
+      fhnw02:
+        historyRangeSec: 3600
   labels:
   - lndversion
-  - exporterversion
   - pubkey
   nodes:
     fhnw-01:
@@ -49,15 +68,19 @@ lnd:
         - blockchain_synced
         - channel_open
         - channel_closed
-        - channel_active.channel01
-        - channel_balance_local.channel01
-        - channel_balance_remote.channel01
+        - channel_active.fhnw01ToAranguren
+        - channel_active.fhnw01ToPuzzleITC
+        - channel_balance_local.fhnw01ToAranguren
+        - channel_balance_local.fhnw01ToPuzzleITC
+        - channel_balance_remote.fhnw01ToAranguren
+        - channel_balance_remote.fhnw01ToPuzzleITC
         - connected_peers
         - balance_onchain
         - balance_offchain
-        - channel_routing_activity.channel01
+        - channel_routing_activity.fhnw01
         testpayments:
-        - channel_route_test.channel01
+        - channel_route_test.fhnw01ToAranguren
+        - channel_route_test.fhnw01ToPuzzleITC
     fhnw-02:
       host: ip5.adrianpauli.ch
       port: 10010
@@ -77,5 +100,16 @@ lnd:
         -----END CERTIFICATE-----
       exporters:
         common:
-          - current_block_height
-          - blockchain_synced
+        - current_block_height
+        - blockchain_synced
+        - channel_open
+        - channel_closed
+        - channel_active.fhnw02ToFhnw01
+        - channel_balance_local.fhnw02ToFhnw01
+        - channel_balance_remote.fhnw02ToFhnw01
+        - connected_peers
+        - balance_onchain
+        - balance_offchain
+        - channel_routing_activity.fhnw02
+        testpayments:
+        - channel_route_test.fhnw02ToFhnw01
