@@ -14,6 +14,8 @@ import java.util.Collections;
 
 public class ChannelRouteTestScraper implements MetricScraper<Counter> {
 
+    private static final String CHANNEL_ID_LABEL = "channel_id";
+
     private ChannelRouteTestConfig metricConfig;
 
     public ChannelRouteTestScraper(ChannelRouteTestConfig metricConfig) {
@@ -50,7 +52,7 @@ public class ChannelRouteTestScraper implements MetricScraper<Counter> {
                 null);
 
         return Counter.create()
-                .label("channelId", String.valueOf(metricConfig.getChannelId()))
+                .label(CHANNEL_ID_LABEL, String.valueOf(metricConfig.getChannelId()))
                 .value("".equals(sendToRouteResponse.getPaymentError()) ? 1 : 0);
     }
 
