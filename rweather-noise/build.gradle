@@ -1,0 +1,8 @@
+plugins {
+    id 'java'
+}
+
+group 'ch.puzzle.lnd'
+version 'github-master'
+
+sourceCompatibility = 1.8

@@ -27,5 +27,8 @@ dependencies {
 	implementation 'io.prometheus:simpleclient:0.6.0'
 	implementation 'io.prometheus:simpleclient_common:0.6.0'
 	implementation "javax.xml.bind:jaxb-api:2.2.11" // Required by Prometheus Client Library
+	compile project(':rweather-noise')
+	implementation 'org.bouncycastle:bcpg-jdk15on:1.62'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

@@ -64,6 +64,7 @@ lnd:
         -----END CERTIFICATE-----
       exporters:
         common:
+        - node_reachable
         - current_block_height
         - blockchain_synced
         - channel_open
@@ -100,6 +101,7 @@ lnd:
         -----END CERTIFICATE-----
       exporters:
         common:
+        - node_reachable
         - current_block_height
         - blockchain_synced
         - channel_open
