@@ -3,13 +3,16 @@ package ch.puzzle.lnd.metricsexporter.common.scrape;
 import ch.puzzle.lnd.metricsexporter.common.scrape.labels.Labels;
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Counter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 public class Scrape {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(Scrape.class);
 
     private final LabelProviderExecutor labelProviderExecutor;
 
@@ -43,16 +46,31 @@ public class Scrape {
         try {
             executorService.awaitTermination(timeout, unit);
         } catch (InterruptedException e) {
-            e.printStackTrace(); // FIXME
+            return handleThreadInterrupt();
         }
         var globalLabels = labelProviderExecutor.collect();
         var registry = metricScraperExecutor.collect(globalLabels);
         var scrapeSuccessfulCollector = scrapeSuccessfulCollectorFactory.create(globalLabels);
         registry.register(scrapeSuccessfulCollector);
-        if (!labelProviderExecutor.hasErrors() && !metricScraperExecutor.hasErrors()) {
+        if (wasSuccessful()) {
             scrapeSuccessfulCollector.labels(globalLabels.getValues()).inc();
         }
         return registry;
+    }
+
+    private CollectorRegistry handleThreadInterrupt() {
+        var registry = new CollectorRegistry();
+        LOGGER.error("Thread was interrupted. Returning empty result.");
+        scrapeSuccessfulCollectorFactory.create(Labels.create()).register(registry);
+        return registry;
+    }
+
+    private boolean wasSuccessful() {
+        if (!executorService.isTerminated()) {
+            LOGGER.error("Unable to perform all configured scrapes. You should consider increasing the scrape timeout.");
+            return false;
+        }
+        return !labelProviderExecutor.hasErrors() && !metricScraperExecutor.hasErrors();
     }
 
     static interface ScrapeSuccessfulCollectorFactory {
