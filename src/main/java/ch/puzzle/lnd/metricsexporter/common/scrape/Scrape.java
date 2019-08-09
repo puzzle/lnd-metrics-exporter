@@ -1,11 +1,14 @@
 package ch.puzzle.lnd.metricsexporter.common.scrape;
 
+import ch.puzzle.lnd.metricsexporter.common.api.LndApi;
 import ch.puzzle.lnd.metricsexporter.common.scrape.labels.Labels;
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Counter;
+import org.lightningj.lnd.wrapper.StatusException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.undo.StateEdit;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -16,20 +19,24 @@ public class Scrape {
 
     private final LabelProviderExecutor labelProviderExecutor;
 
+    private final MetricScraperExecutor metricScraperExecutor;
+
+    private final ScrapeSuccessfulCollectorFactory scrapeSuccessfulCollectorFactory;
+
+    private final LndApi api;
+
     private ExecutorService executorService;
-
-    private MetricScraperExecutor metricScraperExecutor;
-
-    private ScrapeSuccessfulCollectorFactory scrapeSuccessfulCollectorFactory;
 
     Scrape(
             MetricScraperExecutor metricScraperExecutor,
             LabelProviderExecutor labelProviderExecutor,
-            ScrapeSuccessfulCollectorFactory scrapeSuccessfulCollectorFactory
+            ScrapeSuccessfulCollectorFactory scrapeSuccessfulCollectorFactory,
+            LndApi api
     ) {
         this.metricScraperExecutor = metricScraperExecutor;
         this.labelProviderExecutor = labelProviderExecutor;
         this.scrapeSuccessfulCollectorFactory = scrapeSuccessfulCollectorFactory;
+        this.api = api;
     }
 
     public void start(int numberOfThreads) {
@@ -52,8 +59,13 @@ public class Scrape {
         var registry = metricScraperExecutor.collect(globalLabels);
         var scrapeSuccessfulCollector = scrapeSuccessfulCollectorFactory.create(globalLabels);
         registry.register(scrapeSuccessfulCollector);
-        if (wasSuccessful()) {
-            scrapeSuccessfulCollector.labels(globalLabels.getValues()).inc();
+        try {
+            api.close();
+            if (wasSuccessful()) {
+                scrapeSuccessfulCollector.labels(globalLabels.getValues()).inc();
+            }
+        } catch (StatusException e) {
+            LOGGER.warn("Unable to close LND API connection: {}", e.getStatus());
         }
         return registry;
     }

@@ -45,7 +45,8 @@ public class ScrapeFactory {
         return new Scrape(
                 createMetricScraperExecutor(config.getMetricNames(), api),
                 createLabelProviderExecutor(config.getLabelProviderNames(), api),
-                createScrapeSuccessfulCounter()
+                createScrapeSuccessfulCounter(),
+                api
         );
     }
 

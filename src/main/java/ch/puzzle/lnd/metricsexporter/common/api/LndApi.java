@@ -3,6 +3,7 @@ package ch.puzzle.lnd.metricsexporter.common.api;
 import io.netty.handler.ssl.SslContext;
 import org.lightningj.lnd.wrapper.AsynchronousLndAPI;
 import org.lightningj.lnd.wrapper.MacaroonContext;
+import org.lightningj.lnd.wrapper.StatusException;
 import org.lightningj.lnd.wrapper.SynchronousLndAPI;
 
 public class LndApi {
@@ -48,5 +49,26 @@ public class LndApi {
             );
         }
         return asynchronousLndAPI;
+    }
+
+    public void close() throws StatusException {
+        StatusException exception = null;
+        if (null != synchronousLndAPI) {
+            try {
+                synchronousLndAPI.close();
+            } catch (StatusException e) {
+                exception = e;
+            }
+        }
+        if (null != asynchronousLndAPI) {
+            try {
+                asynchronousLndAPI.close();
+            } catch (StatusException e) {
+                exception = e;
+            }
+        }
+        if (null != exception) {
+            throw exception;
+        }
     }
 }
