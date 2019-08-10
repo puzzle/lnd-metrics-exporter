@@ -1,7 +1,7 @@
 package ch.puzzle.lnd.metricsexporter.scrapers.channel.routingactivity;
 
-import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraperConfigs;
-import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.ParameterizedMetricScraperRegistry;
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.scraperregistry.MetricScraperConfigs;
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.scraperregistry.ParameterizedMetricScraperRegistry;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;

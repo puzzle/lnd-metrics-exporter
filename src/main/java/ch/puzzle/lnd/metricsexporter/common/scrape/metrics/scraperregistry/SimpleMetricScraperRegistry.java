@@ -1,5 +1,6 @@
-package ch.puzzle.lnd.metricsexporter.common.scrape.metrics;
+package ch.puzzle.lnd.metricsexporter.common.scrape.metrics.scraperregistry;
 
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraper;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -19,8 +20,11 @@ public class SimpleMetricScraperRegistry implements MetricScraperRegistry, Appli
     }
 
     @Override
-    public MetricScraper find(String name) {
-        return scrapers.get(name); // FIXME - > not found?
+    public MetricScraper lookup(String name) throws NoSuchMetricScraperException {
+        if (!scrapers.containsKey(name)) {
+            throw new NoSuchMetricScraperException(name);
+        }
+        return scrapers.get(name);
     }
 
     @Override

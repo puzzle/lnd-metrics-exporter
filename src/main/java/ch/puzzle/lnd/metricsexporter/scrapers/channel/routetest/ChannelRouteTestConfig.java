@@ -1,7 +1,7 @@
 package ch.puzzle.lnd.metricsexporter.scrapers.channel.routetest;
 
-import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraperConfigs;
-import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.ParameterizedMetricScraperRegistry;
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.scraperregistry.MetricScraperConfigs;
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.scraperregistry.ParameterizedMetricScraperRegistry;
 import ch.puzzle.lnd.metricsexporter.scrapers.channel.ChannelIdConfig;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

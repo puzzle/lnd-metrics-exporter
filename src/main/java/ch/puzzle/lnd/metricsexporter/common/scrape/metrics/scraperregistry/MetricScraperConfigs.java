@@ -1,4 +1,4 @@
-package ch.puzzle.lnd.metricsexporter.common.scrape.metrics;
+package ch.puzzle.lnd.metricsexporter.common.scrape.metrics.scraperregistry;
 
 import java.util.Collection;
 import java.util.HashMap;

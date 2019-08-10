@@ -63,7 +63,6 @@ class MetricScraperExecutor {
     }
 
     CollectorRegistry collect(Labels globalLabels) {
-        // TODO: Check executorservice?
         var registry = new CollectorRegistry();
         for (final var resultEntry : measurements.entrySet()) {
             final var name = resultEntry.getKey();

@@ -1,10 +1,10 @@
 package ch.puzzle.lnd.metricsexporter.common.config;
 
-import ch.puzzle.lnd.metricsexporter.common.scrape.config.exception.CannotFindConfig;
-import ch.puzzle.lnd.metricsexporter.common.scrape.config.exception.InvalidConfigDetected;
+import ch.puzzle.lnd.metricsexporter.common.scrape.config.exception.NoSuchScrapeConfigException;
+import ch.puzzle.lnd.metricsexporter.common.scrape.config.exception.InvalidScrapeConfigException;
 import ch.puzzle.lnd.metricsexporter.common.scrape.config.ScrapeConfig;
 import ch.puzzle.lnd.metricsexporter.common.scrape.config.ScrapeConfigRegistry;
-import ch.puzzle.lnd.metricsexporter.common.scrape.config.exception.ScrapeConfigLookupException;
+import ch.puzzle.lnd.metricsexporter.common.scrape.config.exception.ScrapeConfigException;
 import io.grpc.netty.GrpcSslContexts;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
@@ -30,51 +30,51 @@ public class ConfigScrapeConfigRegistry implements ScrapeConfigRegistry {
     }
 
     @Override
-    public ScrapeConfig lookup(String node, String exporter) throws ScrapeConfigLookupException {
+    public ScrapeConfig lookup(String node, String exporter) throws ScrapeConfigException {
         var nodeConfig = findNodeConfig(node);
         return ScrapeConfig.builder()
+                .metricNames(findMetrics(nodeConfig, exporter))
                 .host(nodeConfig.getHost())
                 .port(nodeConfig.getPort())
                 .sslContext(createSslContext(nodeConfig))
                 .macaroonContext(createMacaroonContext(node, exporter))
-                .metricNames(findMetrics(nodeConfig, exporter))
                 .labelProviderNames(lndConfig.getLabels())
                 .build();
     }
 
-    private SslContext createSslContext(NodeConfig nodeConfig) throws InvalidConfigDetected {
+    private SslContext createSslContext(NodeConfig nodeConfig) throws InvalidScrapeConfigException {
         try {
             return GrpcSslContexts.configure(SslContextBuilder.forClient(), SslProvider.OPENSSL)
                     .trustManager(new ByteArrayInputStream(nodeConfig.getCert().getBytes()))
                     .build();
         } catch (Exception e) {
-            throw InvalidConfigDetected.create(e);
+            throw InvalidScrapeConfigException.invalidCertificate(e);
         }
     }
 
-    private MacaroonContext createMacaroonContext(String node, String exporter) throws InvalidConfigDetected {
+    private MacaroonContext createMacaroonContext(String node, String exporter) throws InvalidScrapeConfigException {
         var nodeConfigPath = new File(lndConfig.getMacaroonPath(), node);
         var macaroonFile = new File(nodeConfigPath, String.format(MACAROON_FILENAME_TEMPLATE, exporter));
         if (!macaroonFile.canRead()) {
-            throw InvalidConfigDetected.noSchuchMacaroon(macaroonFile);
+            throw InvalidScrapeConfigException.invalidMacaroon(macaroonFile);
         }
         try {
             return new StaticFileMacaroonContext(macaroonFile);
         } catch (ClientSideException e) {
-            throw InvalidConfigDetected.create(e, macaroonFile);
+            throw InvalidScrapeConfigException.invalidMacaroon(e, macaroonFile);
         }
     }
 
-    private NodeConfig findNodeConfig(String node) throws CannotFindConfig {
+    private NodeConfig findNodeConfig(String node) throws NoSuchScrapeConfigException {
         if (!lndConfig.getNodes().containsKey(node)) {
-            throw CannotFindConfig.noSuchNode(node);
+            throw NoSuchScrapeConfigException.noSuchNode(node);
         }
         return lndConfig.getNodes().get(node);
     }
 
-    private List<String> findMetrics(NodeConfig nodeConfig, String exporter) throws CannotFindConfig {
+    private List<String> findMetrics(NodeConfig nodeConfig, String exporter) throws NoSuchScrapeConfigException {
         if (!nodeConfig.getExporters().containsKey(exporter)) {
-            throw CannotFindConfig.noSuchExporter(nodeConfig, exporter);
+            throw NoSuchScrapeConfigException.noSuchExporter(nodeConfig, exporter);
         }
         return nodeConfig.getExporters().get(exporter);
     }

@@ -1,6 +1,8 @@
-package ch.puzzle.lnd.metricsexporter.common.scrape.labels;
+package ch.puzzle.lnd.metricsexporter.common.scrape.labels.providerregistry;
 
+import ch.puzzle.lnd.metricsexporter.common.scrape.labels.LabelProvider;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
@@ -10,16 +12,20 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class LabelProviderRegistry implements ApplicationListener<ContextRefreshedEvent> {
+@Primary
+public class SimpleLabelProviderRegistry implements LabelProviderRegistry, ApplicationListener<ContextRefreshedEvent> {
 
     private volatile Map<String, LabelProvider> labelProviders;
 
-    public LabelProviderRegistry() {
+    public SimpleLabelProviderRegistry() {
         labelProviders = new HashMap<>();
     }
 
-    public LabelProvider find(String name) {
-        return labelProviders.get(name); // FIXME - > not found?
+    public LabelProvider lookup(String name) throws NoSuchLabelProviderException {
+        if (!labelProviders.containsKey(name)) {
+            throw new NoSuchLabelProviderException(name);
+        }
+        return labelProviders.get(name);
     }
 
     @Override

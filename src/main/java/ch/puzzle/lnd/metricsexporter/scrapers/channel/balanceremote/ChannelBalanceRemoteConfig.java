@@ -1,10 +1,8 @@
 package ch.puzzle.lnd.metricsexporter.scrapers.channel.balanceremote;
 
-import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraperConfigs;
-import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.ParameterizedMetricScraperRegistry;
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.scraperregistry.MetricScraperConfigs;
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.scraperregistry.ParameterizedMetricScraperRegistry;
 import ch.puzzle.lnd.metricsexporter.scrapers.channel.ChannelIdConfig;
-import ch.puzzle.lnd.metricsexporter.scrapers.channel.routetest.ChannelRouteTestScraper;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

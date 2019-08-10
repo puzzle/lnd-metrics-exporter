@@ -1,5 +1,6 @@
-package ch.puzzle.lnd.metricsexporter.common.scrape.metrics;
+package ch.puzzle.lnd.metricsexporter.common.scrape.metrics.scraperregistry;
 
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraper;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -15,8 +16,11 @@ public class ParameterizedMetricScraperRegistry implements MetricScraperRegistry
     }
 
     @Override
-    public MetricScraper find(String name) {
-        return scrapers.get(name); // FIXME - > not found?
+    public MetricScraper lookup(String name) throws NoSuchMetricScraperException {
+        if (!scrapers.containsKey(name)) {
+            throw new NoSuchMetricScraperException(name);
+        }
+        return scrapers.get(name);
     }
 
     public void register(String parametrizationName, MetricScraper metricScraper) {

@@ -1,5 +1,6 @@
-package ch.puzzle.lnd.metricsexporter.common.scrape.metrics;
+package ch.puzzle.lnd.metricsexporter.common.scrape.metrics.scraperregistry;
 
+import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraper;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -16,12 +17,14 @@ public class RootMetricScraperRegistry implements MetricScraperRegistry {
     }
 
     @Override
-    public MetricScraper find(String name) {
+    public MetricScraper lookup(String name) throws NoSuchMetricScraperException {
         for (MetricScraperRegistry registry : registries) {
-            if (registry.find(name) != null) {
-                return registry.find(name);
+            try {
+                return registry.lookup(name);
+            } catch (NoSuchMetricScraperException e) {
+                // Try next registry
             }
         }
-        return null; // TODO: Throw invalid config error?
+        throw new NoSuchMetricScraperException(name);
     }
 }

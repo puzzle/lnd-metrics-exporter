@@ -5,9 +5,9 @@ import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.measurement.Measureme
 
 public interface MetricScraper<TMeasurement extends Measurement<?, ?>> {
 
-    String name(); // TODO: Use info for prometheus help stuff
+    String name();
 
-    String description(); // TODO: Use info for prometheus help stuff
+    String description();
 
     TMeasurement scrape(LndApi lndApi) throws Exception;
 
