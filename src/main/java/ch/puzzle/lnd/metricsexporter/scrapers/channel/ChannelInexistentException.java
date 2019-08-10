@@ -1,4 +1,4 @@
-package ch.puzzle.lnd.metricsexporter.scrapers.exceptions;
+package ch.puzzle.lnd.metricsexporter.scrapers.channel;
 
 public class ChannelInexistentException extends Exception{
 

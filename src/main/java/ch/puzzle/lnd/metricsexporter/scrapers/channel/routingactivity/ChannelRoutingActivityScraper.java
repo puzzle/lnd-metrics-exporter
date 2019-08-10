@@ -1,7 +1,6 @@
-package ch.puzzle.lnd.metricsexporter.scrapers;
+package ch.puzzle.lnd.metricsexporter.scrapers.channel.routingactivity;
 
 import ch.puzzle.lnd.metricsexporter.common.api.LndApi;
-import ch.puzzle.lnd.metricsexporter.common.config.ChannelRoutingActivityConfig;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraper;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.measurement.Summary;
 import org.lightningj.lnd.proto.LightningApi;
@@ -12,12 +11,13 @@ import java.time.Instant;
 public class ChannelRoutingActivityScraper implements MetricScraper<Summary> {
 
     private static final String CHANNEL_ID_IN_LABEL = "channel_id_in";
+
     private static final String CHANNEL_ID_OUT_LABEL = "channel_id_out";
 
-    private ChannelRoutingActivityConfig metricConfig;
+    private final int historyRangeSec;
 
-    public ChannelRoutingActivityScraper(ChannelRoutingActivityConfig metricConfig) {
-        this.metricConfig = metricConfig;
+    ChannelRoutingActivityScraper(final int historyRangeSec) {
+        this.historyRangeSec = historyRangeSec;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ChannelRoutingActivityScraper implements MetricScraper<Summary> {
     public Summary scrape(LndApi lndApi) throws Exception {
         var currentUnixTime = Instant.now().getEpochSecond();
         var forwardingHistoryRequest = LightningApi.ForwardingHistoryRequest.newBuilder()
-                .setStartTime(currentUnixTime - metricConfig.getHistoryRangeSec())
+                .setStartTime(currentUnixTime - historyRangeSec)
                 .setEndTime(currentUnixTime)
                 .build();
 

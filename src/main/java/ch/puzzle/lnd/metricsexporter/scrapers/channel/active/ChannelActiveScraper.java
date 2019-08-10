@@ -1,10 +1,9 @@
-package ch.puzzle.lnd.metricsexporter.scrapers;
+package ch.puzzle.lnd.metricsexporter.scrapers.channel.active;
 
 import ch.puzzle.lnd.metricsexporter.common.api.LndApi;
-import ch.puzzle.lnd.metricsexporter.common.config.ChannelIdentificationConfig;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraper;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.measurement.Counter;
-import ch.puzzle.lnd.metricsexporter.scrapers.exceptions.ChannelInexistentException;
+import ch.puzzle.lnd.metricsexporter.scrapers.channel.ChannelInexistentException;
 import org.lightningj.lnd.wrapper.message.Channel;
 import org.lightningj.lnd.wrapper.message.ListChannelsRequest;
 
@@ -12,10 +11,10 @@ public class ChannelActiveScraper implements MetricScraper<Counter> {
 
     private static final String CHANNEL_ID_LABEL = "channel_id";
 
-    private ChannelIdentificationConfig metricConfig;
+    private final long channelId;
 
-    public ChannelActiveScraper(ChannelIdentificationConfig metricConfig) {
-        this.metricConfig = metricConfig;
+    ChannelActiveScraper(long channelId) {
+        this.channelId = channelId;
     }
 
     @Override
@@ -33,11 +32,11 @@ public class ChannelActiveScraper implements MetricScraper<Counter> {
         var listChannelsResponse = lndApi.synchronous().listChannels(new ListChannelsRequest());
 
         for (Channel channel : listChannelsResponse.getChannels()) {
-            if (channel.getChanId() != metricConfig.getChannelId()) {
+            if (channel.getChanId() != channelId) {
                 continue;
             }
             return Counter.create()
-                    .label(CHANNEL_ID_LABEL, String.valueOf(metricConfig.getChannelId()))
+                    .label(CHANNEL_ID_LABEL, String.valueOf(channelId))
                     .value(channel.getActive() ? 1 : 0);
         }
 

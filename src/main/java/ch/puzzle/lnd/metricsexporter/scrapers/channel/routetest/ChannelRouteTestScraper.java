@@ -1,7 +1,6 @@
-package ch.puzzle.lnd.metricsexporter.scrapers;
+package ch.puzzle.lnd.metricsexporter.scrapers.channel.routetest;
 
 import ch.puzzle.lnd.metricsexporter.common.api.LndApi;
-import ch.puzzle.lnd.metricsexporter.common.config.ChannelRouteTestConfig;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraper;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.measurement.Counter;
 import org.lightningj.lnd.proto.LightningApi;
@@ -16,10 +15,13 @@ public class ChannelRouteTestScraper implements MetricScraper<Counter> {
 
     private static final String CHANNEL_ID_LABEL = "channel_id";
 
-    private ChannelRouteTestConfig metricConfig;
+    private final long chanId;
 
-    public ChannelRouteTestScraper(ChannelRouteTestConfig metricConfig) {
-        this.metricConfig = metricConfig;
+    private final int amount;
+
+    ChannelRouteTestScraper(long chanId, int amount) {
+        this.chanId = chanId;
+        this.amount = amount;
     }
 
     @Override
@@ -38,9 +40,6 @@ public class ChannelRouteTestScraper implements MetricScraper<Counter> {
         var invoiceMessage = new Invoice(invoice);
         var addInvoiceResponse = lndApi.synchronous().addInvoice(invoiceMessage);
 
-        var amount = metricConfig.getAmount();
-        var chanId = metricConfig.getChannelId();
-
         var info = lndApi.synchronous().getInfo();
         var chanInfo = lndApi.synchronous().getChanInfo(chanId);
         var routeMessages = Collections.singletonList(constructRoute(info.getBlockHeight(), amount, chanInfo));
@@ -52,7 +51,7 @@ public class ChannelRouteTestScraper implements MetricScraper<Counter> {
                 null);
 
         return Counter.create()
-                .label(CHANNEL_ID_LABEL, String.valueOf(metricConfig.getChannelId()))
+                .label(CHANNEL_ID_LABEL, String.valueOf(chanId))
                 .value("".equals(sendToRouteResponse.getPaymentError()) ? 1 : 0);
     }
 
