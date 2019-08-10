@@ -1,6 +1,6 @@
-package ch.puzzle.lnd.metricsexporter.scrapers.channel;
+package ch.puzzle.lnd.metricsexporter.scrapers.channel.common;
 
-public class ChannelInexistentException extends Exception{
+public class ChannelInexistentException extends Exception {
 
     private final static String MESSAGE = "Channel does not exist.";
 

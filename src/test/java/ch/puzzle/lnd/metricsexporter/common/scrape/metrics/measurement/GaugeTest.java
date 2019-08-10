@@ -69,7 +69,7 @@ public class GaugeTest {
         Labels globalLabels = Labels.create()
                 .with(MEASUREMENT_LABEL_NAME, "value-overridden")
                 .with("global_label", "global-value-01");
-        final var collector = gauge.collect(METRIC_NAME,METRIC_HELP, globalLabels);
+        final var collector = gauge.collect(METRIC_NAME, METRIC_HELP, globalLabels);
 
         final var samples = collector.collect();
         assertEquals(1, samples.size());

@@ -2,7 +2,7 @@ package ch.puzzle.lnd.metricsexporter.scrapers.channel.routetest;
 
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.scraperregistry.MetricScraperConfigs;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.scraperregistry.ParameterizedMetricScraperRegistry;
-import ch.puzzle.lnd.metricsexporter.scrapers.channel.ChannelIdConfig;
+import ch.puzzle.lnd.metricsexporter.scrapers.channel.common.ChannelIdConfig;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.beans.factory.annotation.Autowired;

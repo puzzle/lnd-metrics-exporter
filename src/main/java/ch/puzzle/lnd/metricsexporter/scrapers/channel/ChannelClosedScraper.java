@@ -1,4 +1,4 @@
-package ch.puzzle.lnd.metricsexporter.scrapers;
+package ch.puzzle.lnd.metricsexporter.scrapers.channel;
 
 import ch.puzzle.lnd.metricsexporter.common.api.LndApi;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraper;

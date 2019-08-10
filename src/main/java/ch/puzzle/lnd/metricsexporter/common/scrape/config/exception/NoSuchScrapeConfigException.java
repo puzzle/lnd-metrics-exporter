@@ -1,6 +1,6 @@
 package ch.puzzle.lnd.metricsexporter.common.scrape.config.exception;
 
-import ch.puzzle.lnd.metricsexporter.common.config.NodeConfig;
+import ch.puzzle.lnd.metricsexporter.common.scrape.config.NodeConfig;
 
 public class NoSuchScrapeConfigException extends ScrapeConfigException {
 

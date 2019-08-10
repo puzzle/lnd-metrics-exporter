@@ -1,4 +1,4 @@
-package ch.puzzle.lnd.metricsexporter.scrapers.channel;
+package ch.puzzle.lnd.metricsexporter.scrapers.channel.common;
 
 import lombok.Data;
 

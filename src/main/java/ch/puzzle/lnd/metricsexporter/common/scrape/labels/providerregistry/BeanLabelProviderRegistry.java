@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 
 @Component
 @Primary
-public class SimpleLabelProviderRegistry implements LabelProviderRegistry, ApplicationListener<ContextRefreshedEvent> {
+public class BeanLabelProviderRegistry implements LabelProviderRegistry, ApplicationListener<ContextRefreshedEvent> {
 
     private volatile Map<String, LabelProvider> labelProviders;
 
-    public SimpleLabelProviderRegistry() {
+    public BeanLabelProviderRegistry() {
         labelProviders = new HashMap<>();
     }
 

@@ -11,11 +11,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class SimpleMetricScraperRegistry implements MetricScraperRegistry, ApplicationListener<ContextRefreshedEvent> {
+public class BeanMetricScraperRegistry implements MetricScraperRegistry, ApplicationListener<ContextRefreshedEvent> {
 
     private volatile Map<String, MetricScraper> scrapers;
 
-    public SimpleMetricScraperRegistry() {
+    public BeanMetricScraperRegistry() {
         scrapers = new HashMap<>();
     }
 

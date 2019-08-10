@@ -1,4 +1,4 @@
-package ch.puzzle.lnd.metricsexporter.scrapers.nodereachable;
+package ch.puzzle.lnd.metricsexporter.scrapers.node.reachable;
 
 import org.junit.Before;
 import org.junit.Test;

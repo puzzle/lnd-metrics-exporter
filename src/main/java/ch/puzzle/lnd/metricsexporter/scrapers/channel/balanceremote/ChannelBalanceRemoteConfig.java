@@ -2,7 +2,7 @@ package ch.puzzle.lnd.metricsexporter.scrapers.channel.balanceremote;
 
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.scraperregistry.MetricScraperConfigs;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.scraperregistry.ParameterizedMetricScraperRegistry;
-import ch.puzzle.lnd.metricsexporter.scrapers.channel.ChannelIdConfig;
+import ch.puzzle.lnd.metricsexporter.scrapers.channel.common.ChannelIdConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

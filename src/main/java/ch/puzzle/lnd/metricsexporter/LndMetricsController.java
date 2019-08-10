@@ -1,7 +1,7 @@
 package ch.puzzle.lnd.metricsexporter;
 
-import ch.puzzle.lnd.metricsexporter.common.config.LndConfig;
 import ch.puzzle.lnd.metricsexporter.common.scrape.ScrapeFactory;
+import ch.puzzle.lnd.metricsexporter.common.scrape.config.LndConfig;
 import ch.puzzle.lnd.metricsexporter.common.scrape.config.ScrapeConfigRegistry;
 import ch.puzzle.lnd.metricsexporter.common.scrape.config.exception.NoSuchScrapeConfigException;
 import ch.puzzle.lnd.metricsexporter.common.scrape.config.exception.ScrapeConfigException;

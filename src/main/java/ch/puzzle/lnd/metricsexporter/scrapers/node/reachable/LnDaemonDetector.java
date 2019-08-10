@@ -1,4 +1,4 @@
-package ch.puzzle.lnd.metricsexporter.scrapers.nodereachable;
+package ch.puzzle.lnd.metricsexporter.scrapers.node.reachable;
 
 import com.southernstorm.noise.protocol.Noise;
 import org.bouncycastle.crypto.digests.SHA256Digest;

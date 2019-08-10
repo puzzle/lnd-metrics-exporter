@@ -3,7 +3,7 @@ package ch.puzzle.lnd.metricsexporter.scrapers.channel.active;
 import ch.puzzle.lnd.metricsexporter.common.api.LndApi;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.MetricScraper;
 import ch.puzzle.lnd.metricsexporter.common.scrape.metrics.measurement.Counter;
-import ch.puzzle.lnd.metricsexporter.scrapers.channel.ChannelInexistentException;
+import ch.puzzle.lnd.metricsexporter.scrapers.channel.common.ChannelInexistentException;
 import org.lightningj.lnd.wrapper.message.Channel;
 import org.lightningj.lnd.wrapper.message.ListChannelsRequest;
 
@@ -40,6 +40,6 @@ public class ChannelActiveScraper implements MetricScraper<Counter> {
                     .value(channel.getActive() ? 1 : 0);
         }
 
-       throw new ChannelInexistentException();
+        throw new ChannelInexistentException();
     }
 }

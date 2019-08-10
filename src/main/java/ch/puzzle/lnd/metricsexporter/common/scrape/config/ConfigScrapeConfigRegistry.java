@@ -1,9 +1,7 @@
-package ch.puzzle.lnd.metricsexporter.common.config;
+package ch.puzzle.lnd.metricsexporter.common.scrape.config;
 
-import ch.puzzle.lnd.metricsexporter.common.scrape.config.exception.NoSuchScrapeConfigException;
 import ch.puzzle.lnd.metricsexporter.common.scrape.config.exception.InvalidScrapeConfigException;
-import ch.puzzle.lnd.metricsexporter.common.scrape.config.ScrapeConfig;
-import ch.puzzle.lnd.metricsexporter.common.scrape.config.ScrapeConfigRegistry;
+import ch.puzzle.lnd.metricsexporter.common.scrape.config.exception.NoSuchScrapeConfigException;
 import ch.puzzle.lnd.metricsexporter.common.scrape.config.exception.ScrapeConfigException;
 import io.grpc.netty.GrpcSslContexts;
 import io.netty.handler.ssl.SslContext;

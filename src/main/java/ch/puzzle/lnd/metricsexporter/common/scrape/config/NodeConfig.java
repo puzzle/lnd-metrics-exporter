@@ -1,4 +1,4 @@
-package ch.puzzle.lnd.metricsexporter.common.config;
+package ch.puzzle.lnd.metricsexporter.common.scrape.config;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
