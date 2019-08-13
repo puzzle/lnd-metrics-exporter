@@ -6,7 +6,7 @@ LND Metrics Exporter is a [Prometheus](https://prometheus.io)  Metrics Exporter 
 ## Requirements
 
 The LND Metrics Exporter requires at least Java 11.
-It can be used with [LND 0.6.1-beta](https://github.com/lightningnetwork/lnd/releases/tag/v0.6.1-beta) or newer. or newer.
+It can be used with [LND 0.6.1-beta](https://github.com/lightningnetwork/lnd/releases/tag/v0.6.1-beta) or newer.
 
 ## Configuration
 
@@ -168,12 +168,12 @@ scrape_configs:
     ...
 ```
 
-The pattern for `metrics_path` is always `/lnd/$NODE/$ENDPOINT` whereas `$NODE` / `$ENDPOINT` are valid node / endpoint configuration keys (see also the previous secion).
+The pattern for `metrics_path` is always `/lnd/$NODE/$ENDPOINT` whereas `$NODE` / `$ENDPOINT` are valid node / endpoint configuration keys (see also the previous section).
 
 ## Build
 
 The LND Metrics Exporter is intended to be run within a container environment.
-Therefore, it has t's own Dockerfile.
+Therefore, it has its own Dockerfile.
 In order to build the docker image, just run the following command from within the project root:
 
 `docker build .` 
