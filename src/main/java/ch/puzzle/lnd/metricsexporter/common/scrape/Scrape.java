@@ -8,7 +8,6 @@ import org.lightningj.lnd.wrapper.StatusException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.undo.StateEdit;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;

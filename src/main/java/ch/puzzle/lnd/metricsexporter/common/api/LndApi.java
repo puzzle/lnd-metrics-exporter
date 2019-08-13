@@ -8,6 +8,10 @@ import org.lightningj.lnd.wrapper.SynchronousLndAPI;
 
 public class LndApi {
 
+    private final Object SYNCHRONOUS_API_INIT_LOCK = new Object();
+
+    private final Object ASYNCHRONOUS_API_INIT_LOCK = new Object();
+
     private final String host;
 
     private final int port;
@@ -16,9 +20,9 @@ public class LndApi {
 
     private final MacaroonContext macaroonContext;
 
-    private SynchronousLndAPI synchronousLndAPI;
+    private volatile SynchronousLndAPI synchronousLndAPI;
 
-    private AsynchronousLndAPI asynchronousLndAPI;
+    private volatile AsynchronousLndAPI asynchronousLndAPI;
 
     public LndApi(String host, int port, SslContext sslContext, MacaroonContext macaroonContext) {
         this.host = host;
@@ -29,24 +33,14 @@ public class LndApi {
 
     public SynchronousLndAPI synchronous() {
         if (null == synchronousLndAPI) {
-            synchronousLndAPI = new SynchronousLndAPI(
-                    host,
-                    port,
-                    sslContext,
-                    macaroonContext
-            );
+            initSynchronousApi();
         }
         return synchronousLndAPI;
     }
 
     public AsynchronousLndAPI asynchronous() {
         if (null == asynchronousLndAPI) {
-            asynchronousLndAPI = new AsynchronousLndAPI(
-                    host,
-                    port,
-                    sslContext,
-                    macaroonContext
-            );
+            initAsynchronousApi();
         }
         return asynchronousLndAPI;
     }
@@ -69,6 +63,34 @@ public class LndApi {
         }
         if (null != exception) {
             throw exception;
+        }
+    }
+
+    private void initSynchronousApi() {
+        synchronized (SYNCHRONOUS_API_INIT_LOCK) {
+            if (null != synchronousLndAPI) {
+                return; // Another thread was faster
+            }
+            synchronousLndAPI = new SynchronousLndAPI(
+                    host,
+                    port,
+                    sslContext,
+                    macaroonContext
+            );
+        }
+    }
+
+    private void initAsynchronousApi() {
+        synchronized (ASYNCHRONOUS_API_INIT_LOCK) {
+            if (null != asynchronousLndAPI) {
+                return; // Another thread was faster
+            }
+            asynchronousLndAPI = new AsynchronousLndAPI(
+                    host,
+                    port,
+                    sslContext,
+                    macaroonContext
+            );
         }
     }
 }

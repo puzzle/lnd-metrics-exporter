@@ -48,7 +48,6 @@ class LabelProviderExecutor {
     }
 
     public Labels collect() {
-        // FIXME: check executorservice
         return labels;
     }
 }
