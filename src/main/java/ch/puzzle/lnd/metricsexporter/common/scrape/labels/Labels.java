@@ -1,10 +1,12 @@
 package ch.puzzle.lnd.metricsexporter.common.scrape.labels;
 
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+@EqualsAndHashCode
 public final class Labels {
 
     private final SortedMap<String, String> labels;

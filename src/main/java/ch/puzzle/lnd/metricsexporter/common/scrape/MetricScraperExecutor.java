@@ -22,7 +22,7 @@ class MetricScraperExecutor {
 
     private final LndApi api;
 
-    private final Iterable<MetricScraper<?>> scrapers;
+    final Iterable<MetricScraper<?>> scrapers;
 
     private volatile boolean hasErrors;
 

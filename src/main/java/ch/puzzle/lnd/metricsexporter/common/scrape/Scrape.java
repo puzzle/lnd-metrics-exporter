@@ -16,13 +16,13 @@ public class Scrape {
 
     private static Logger LOGGER = LoggerFactory.getLogger(Scrape.class);
 
-    private final LabelProviderExecutor labelProviderExecutor;
+    final LabelProviderExecutor labelProviderExecutor;
 
-    private final MetricScraperExecutor metricScraperExecutor;
+    final MetricScraperExecutor metricScraperExecutor;
 
-    private final ScrapeSuccessfulCollectorFactory scrapeSuccessfulCollectorFactory;
+    final ScrapeSuccessfulCollectorFactory scrapeSuccessfulCollectorFactory;
 
-    private final LndApi api;
+    final LndApi api;
 
     private ExecutorService executorService;
 

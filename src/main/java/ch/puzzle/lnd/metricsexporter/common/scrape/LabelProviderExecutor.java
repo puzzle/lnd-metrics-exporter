@@ -12,7 +12,7 @@ class LabelProviderExecutor {
 
     private final LndApi api;
 
-    private final Iterable<LabelProvider> labelProviders;
+    final Iterable<LabelProvider> labelProviders;
 
     private volatile boolean hasErrors;
 
@@ -31,11 +31,12 @@ class LabelProviderExecutor {
 
     private void execute(ExecutorService executorService, LabelProvider labelProvider) {
         executorService.submit(() -> {
-            Labels labels = null;
+            Labels labels;
             try {
                 labels = labelProvider.provide(api);
             } catch (Exception e) {
                 hasErrors = true;
+                return;
             }
             synchronized (LOCK) {
                 this.labels = this.labels.merge(labels);

@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-public class CounterTest {
+public class SummaryTest {
 
     private static final String METRIC_NAME = "the_name";
 
@@ -18,55 +18,54 @@ public class CounterTest {
 
     private static final String MEASUREMENT_LABEL_VALUE = "label-value-01";
 
-    private static final int MEASUREMENT_VALUE = 1;
+    private static final double MEASUREMENT_VALUE = 1d;
 
-    private Counter counter;
+    private Summary summary;
 
     @Before
     public void setup() {
-        counter = Counter.create()
+        summary = Summary.create()
                 .label(MEASUREMENT_LABEL_NAME, MEASUREMENT_LABEL_VALUE)
                 .value(MEASUREMENT_VALUE);
     }
 
     @Test
-    public void testAddAllFromCounter() throws IncompatibleMeasurementsDetected {
-        final var additionalCounter = Counter.create()
+    public void testAddAllFromSummary() throws IncompatibleMeasurementsDetected {
+        final var additionalSummary = Summary.create()
                 .label("label", "value-02")
-                .value(2);
+                .value(2d);
 
-        counter.addAll(additionalCounter);
-        assertEquals(2, counter.values.size());
+        summary.addAll(additionalSummary);
+        assertEquals(2, summary.values.size());
     }
 
     @Test(expected = IncompatibleMeasurementsDetected.class)
     public void testAddAllFromGauge() throws IncompatibleMeasurementsDetected {
         final var gauge = Gauge.create()
                 .label("label", "value-02")
-                .value(1d);
+                .value(2.0);
 
-        counter.addAll(gauge);
+        summary.addAll(gauge);
     }
 
     @Test(expected = IncompatibleMeasurementsDetected.class)
-    public void testAddAllFromSummary() throws IncompatibleMeasurementsDetected {
-        final var summary = Summary.create()
+    public void testAddAllFromCounter() throws IncompatibleMeasurementsDetected {
+        final var counter = Counter.create()
                 .label("label", "value-02")
-                .value(2d);
+                .value(2);
 
-        counter.addAll(summary);
-        assertEquals(1, counter.values.size());
+        summary.addAll(counter);
     }
 
     @Test
     public void testCollect() {
-        final var samples = counter.collect(METRIC_NAME, METRIC_HELP, Labels.create()).collect();
+        final var samples = summary.collect(METRIC_NAME, METRIC_HELP, Labels.create()).collect();
         assertEquals(1, samples.size());
 
         final var metricFamilySample = samples.get(0);
         assertEquals(METRIC_NAME, metricFamilySample.name);
         assertEquals(METRIC_HELP, metricFamilySample.help);
-        assertEquals(1, metricFamilySample.samples.size());
+        assertEquals(2, metricFamilySample.samples.size());
 
         var sample = metricFamilySample.samples.get(0);
         assertEquals(1d, sample.value, 0);
@@ -79,13 +78,13 @@ public class CounterTest {
         Labels globalLabels = Labels.create()
                 .with(MEASUREMENT_LABEL_NAME, "value-overridden")
                 .with("global_label", "global-value-01");
-        final var collector = counter.collect(METRIC_NAME, METRIC_HELP, globalLabels);
+        final var collector = summary.collect(METRIC_NAME, METRIC_HELP, globalLabels);
 
         final var samples = collector.collect();
         assertEquals(1, samples.size());
 
         final var metricFamilySample = samples.get(0);
-        assertEquals(1, metricFamilySample.samples.size());
+        assertEquals(2, metricFamilySample.samples.size());
 
         var sample = metricFamilySample.samples.get(0);
         assertArrayEquals(new String[]{"global_label", MEASUREMENT_LABEL_NAME}, sample.labelNames.toArray());

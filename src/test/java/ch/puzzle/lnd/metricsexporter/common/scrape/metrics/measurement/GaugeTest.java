@@ -48,6 +48,16 @@ public class GaugeTest {
         gauge.addAll(counter);
     }
 
+    @Test(expected = IncompatibleMeasurementsDetected.class)
+    public void testAddAllFromSummary() throws IncompatibleMeasurementsDetected {
+        final var summary = Summary.create()
+                .label("label", "value-02")
+                .value(2d);
+
+        gauge.addAll(summary);
+        assertEquals(1, gauge.values.size());
+    }
+
     @Test
     public void testCollect() {
         final var samples = gauge.collect(METRIC_NAME, METRIC_HELP, Labels.create()).collect();
