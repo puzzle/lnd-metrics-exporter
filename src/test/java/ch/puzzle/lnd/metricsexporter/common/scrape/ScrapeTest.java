@@ -11,13 +11,10 @@ import org.lightningj.lnd.wrapper.StatusException;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -84,7 +81,7 @@ public class ScrapeTest {
         verify(metricScraperExecutor).execute(any(ExecutorService.class));
         verify(labelProviderExecutor).execute(any(ExecutorService.class));
         verify(lndApi).close();
-        verify(scrapeSuccessfulCollectorChild,never()).inc();
+        verify(scrapeSuccessfulCollectorChild, never()).inc();
         verify(collectorRegistry).register(scrapeSuccessfulCollector);
     }
 
@@ -98,7 +95,7 @@ public class ScrapeTest {
         verify(metricScraperExecutor).execute(any(ExecutorService.class));
         verify(labelProviderExecutor).execute(any(ExecutorService.class));
         verify(lndApi).close();
-        verify(scrapeSuccessfulCollectorChild,never()).inc();
+        verify(scrapeSuccessfulCollectorChild, never()).inc();
         verify(collectorRegistry).register(scrapeSuccessfulCollector);
     }
 }

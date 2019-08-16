@@ -107,7 +107,7 @@ The macaroon files must be placed under `$MACAROON_ROOT/$NODE/$ENDPOINT.macaroon
 * ENDPOINT: The metrics exporter endpoint name under `lnd.nodes.$NODE.exporters`.
 
 
-FIXME: Where to find macaroons
+Macaroon files can be copied from `data/chain/bitcoin/testnet/` for testnet and `data/chain/bitcoin/mainnet/` for mainnet after a successful `lncli unlock`. 
 
 #### Successful Metric
 There is a metric telling whether the scrape was successful or not.

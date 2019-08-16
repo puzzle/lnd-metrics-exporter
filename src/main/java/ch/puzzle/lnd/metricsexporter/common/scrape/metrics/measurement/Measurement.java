@@ -20,6 +20,7 @@ public abstract class Measurement<TValue, TMeasurement extends Measurement<TValu
         defaultLabels = Labels.create();
     }
 
+    @SuppressWarnings("unchecked")
     public final MeasurementValue<TValue, TMeasurement> and() {
         return MeasurementValue.create((TMeasurement) this);
     }
